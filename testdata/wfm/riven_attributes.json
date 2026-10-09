@@ -1,0 +1,164 @@
+{
+  "apiVersion": "0.25.0",
+  "data": [
+    {
+      "id": "5c5ca81a96e8d2003834fe78",
+      "slug": "punch_through",
+      "gameRef": "WeaponPunctureDepthMod",
+      "group": "default",
+      "prefix": "Lexi",
+      "suffix": "Nok",
+      "exclusiveTo": [
+        "archgun",
+        "kitgun",
+        "pistol",
+        "rifle",
+        "shotgun"
+      ],
+      "positiveOnly": true,
+      "i18n": {
+        "en": {
+          "name": "Punch Through",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    },
+    {
+      "id": "5c5ca81a96e8d2003834fe7c",
+      "slug": "slash_damage",
+      "gameRef": "WeaponSlashDamageMod",
+      "group": "default",
+      "prefix": "Sci",
+      "suffix": "Sus",
+      "unit": "percent",
+      "i18n": {
+        "en": {
+          "name": "Slash",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    },
+    {
+      "id": "5c5ca81a96e8d2003834fe74",
+      "slug": "impact_damage",
+      "gameRef": "WeaponImpactDamageMod",
+      "group": "default",
+      "prefix": "Magna",
+      "suffix": "Ton",
+      "unit": "percent",
+      "i18n": {
+        "en": {
+          "name": "Impact",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    },
+    {
+      "id": "5c5ca81a96e8d2003834fe77",
+      "slug": "toxin_damage",
+      "gameRef": "WeaponToxinDamageMod",
+      "group": "default",
+      "prefix": "Toxi",
+      "suffix": "Tox",
+      "unit": "percent",
+      "positiveOnly": true,
+      "i18n": {
+        "en": {
+          "name": "Toxin",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    },
+    {
+      "id": "5c5ca81a96e8d2003834fe7e",
+      "slug": "status_duration",
+      "gameRef": "WeaponProcTimeMod",
+      "group": "default",
+      "prefix": "Deci",
+      "suffix": "Des",
+      "unit": "percent",
+      "i18n": {
+        "en": {
+          "name": "Status Duration",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    },
+    {
+      "id": "5c5ca81a96e8d2003834fe63",
+      "slug": "ammo_maximum",
+      "gameRef": "WeaponAmmoMaxMod",
+      "group": "default",
+      "prefix": "Ampi",
+      "suffix": "Bin",
+      "exclusiveTo": [
+        "archgun",
+        "kitgun",
+        "pistol",
+        "rifle",
+        "shotgun"
+      ],
+      "unit": "percent",
+      "i18n": {
+        "en": {
+          "name": "Ammo Maximum",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    },
+    {
+      "id": "5c5ca81a96e8d2003834fe7f",
+      "slug": "recoil",
+      "gameRef": "WeaponRecoilReductionMod",
+      "group": "default",
+      "prefix": "Zeti",
+      "suffix": "Mag",
+      "exclusiveTo": [
+        "archgun",
+        "kitgun",
+        "pistol",
+        "rifle",
+        "shotgun"
+      ],
+      "positiveIsNegative": true,
+      "unit": "percent",
+      "i18n": {
+        "en": {
+          "name": "Weapon Recoil",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    },
+    {
+      "id": "5c5ca81a96e8d2003834fe80",
+      "slug": "zoom",
+      "gameRef": "WeaponZoomFovMod",
+      "group": "default",
+      "prefix": "Hera",
+      "suffix": "Lis",
+      "exclusiveTo": [
+        "archgun",
+        "kitgun",
+        "pistol",
+        "rifle",
+        "shotgun"
+      ],
+      "unit": "percent",
+      "i18n": {
+        "en": {
+          "name": "Zoom",
+          "icon": "riven_attribute/unknown.png",
+          "thumb": "riven_attribute/unknown.thumb.png"
+        }
+      }
+    }
+  ],
+  "error": null
+}

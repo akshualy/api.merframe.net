@@ -1,0 +1,582 @@
+{
+  "rolls": {
+    "acceltra": {
+      "weapon": "acceltra",
+      "weapon_class": "primary",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            },
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            },
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponDamageAmountMod"
+              ]
+            },
+            {
+              "abbr": "CC",
+              "tags": [
+                "WeaponCritChanceMod"
+              ]
+            },
+            {
+              "abbr": "FR",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 2
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "IMP",
+          "tags": [
+            "WeaponImpactDamageMod"
+          ]
+        },
+        {
+          "abbr": "ZOOM",
+          "tags": [
+            "WeaponZoomFovMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "aeolak": {
+      "weapon": "aeolak",
+      "weapon_class": "primary",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            },
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            },
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponDamageAmountMod"
+              ]
+            },
+            {
+              "abbr": "CC",
+              "tags": [
+                "WeaponCritChanceMod"
+              ]
+            },
+            {
+              "abbr": "FR",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            },
+            {
+              "abbr": "RLS",
+              "tags": [
+                "WeaponReloadSpeedMod"
+              ]
+            }
+          ],
+          "optional_needed": 2
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "IMP",
+          "tags": [
+            "WeaponImpactDamageMod"
+          ]
+        },
+        {
+          "abbr": "PUNC",
+          "tags": [
+            "WeaponArmorPiercingDamageMod"
+          ]
+        },
+        {
+          "abbr": "ZOOM",
+          "tags": [
+            "WeaponZoomFovMod"
+          ]
+        },
+        {
+          "abbr": "REC",
+          "tags": [
+            "WeaponRecoilReductionMod"
+          ]
+        }
+      ],
+      "note": "(NOTE: having 2 quality of life stats are good for use but don't sell well(RLS AND FR), if PUNC is enough to not proc it's worse.)"
+    },
+    "afentis": {
+      "weapon": "afentis",
+      "weapon_class": "primary",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            },
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            },
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponDamageAmountMod"
+              ]
+            },
+            {
+              "abbr": "CC",
+              "tags": [
+                "WeaponCritChanceMod"
+              ]
+            },
+            {
+              "abbr": "FR",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 2
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "ZOOM",
+          "tags": [
+            "WeaponZoomFovMod"
+          ]
+        },
+        {
+          "abbr": "REC",
+          "tags": [
+            "WeaponRecoilReductionMod"
+          ]
+        },
+        {
+          "abbr": "PUNC",
+          "tags": [
+            "WeaponArmorPiercingDamageMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "ambassador": {
+      "weapon": "ambassador",
+      "weapon_class": "primary",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            },
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            },
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponDamageAmountMod"
+              ]
+            },
+            {
+              "abbr": "CC",
+              "tags": [
+                "WeaponCritChanceMod"
+              ]
+            },
+            {
+              "abbr": "FR",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 2
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "ZOOM",
+          "tags": [
+            "WeaponZoomFovMod"
+          ]
+        },
+        {
+          "abbr": "REC",
+          "tags": [
+            "WeaponRecoilReductionMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "alternox": {
+      "weapon": "alternox",
+      "weapon_class": "primary",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponDamageAmountMod"
+              ]
+            },
+            {
+              "abbr": "SC",
+              "tags": [
+                "WeaponStunChanceMod"
+              ]
+            },
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            }
+          ],
+          "optional_needed": 2
+        },
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            },
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            },
+            {
+              "abbr": "CC",
+              "tags": [
+                "WeaponCritChanceMod"
+              ]
+            },
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponDamageAmountMod"
+              ]
+            }
+          ],
+          "optional_needed": 2
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "ZOOM",
+          "tags": [
+            "WeaponZoomFovMod"
+          ]
+        },
+        {
+          "abbr": "REC",
+          "tags": [
+            "WeaponRecoilReductionMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "boar": {
+      "weapon": "boar",
+      "weapon_class": "primary",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            },
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            },
+            {
+              "abbr": "HEAT",
+              "tags": [
+                "WeaponFireDamageMod"
+              ]
+            },
+            {
+              "abbr": "PT",
+              "tags": [
+                "WeaponPunctureDepthMod"
+              ]
+            },
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponDamageAmountMod"
+              ]
+            },
+            {
+              "abbr": "CC",
+              "tags": [
+                "WeaponCritChanceMod"
+              ]
+            },
+            {
+              "abbr": "FR",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 2
+        },
+        {
+          "mandatory": [
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            },
+            {
+              "abbr": "SC",
+              "tags": [
+                "WeaponStunChanceMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "HEAT",
+              "tags": [
+                "WeaponFireDamageMod"
+              ]
+            },
+            {
+              "abbr": "FR",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 1
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "IMP",
+          "tags": [
+            "WeaponImpactDamageMod"
+          ]
+        },
+        {
+          "abbr": "REC",
+          "tags": [
+            "WeaponRecoilReductionMod"
+          ]
+        },
+        {
+          "abbr": "ZOOM",
+          "tags": [
+            "WeaponZoomFovMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "cedo": {
+      "weapon": "cedo",
+      "weapon_class": "primary",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "TOX",
+              "tags": [
+                "WeaponToxinDamageMod"
+              ]
+            },
+            {
+              "abbr": "FR",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            }
+          ],
+          "optional_needed": 1
+        },
+        {
+          "mandatory": [
+            {
+              "abbr": "SC",
+              "tags": [
+                "WeaponStunChanceMod"
+              ]
+            },
+            {
+              "abbr": "MS",
+              "tags": [
+                "WeaponFireIterationsMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "SD",
+              "tags": [
+                "WeaponProcTimeMod"
+              ]
+            },
+            {
+              "abbr": "PFS",
+              "tags": [
+                "WeaponProjectileSpeedMod"
+              ]
+            }
+          ],
+          "optional_needed": 1
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "AMMO",
+          "tags": [
+            "WeaponAmmoMaxMod"
+          ]
+        },
+        {
+          "abbr": "REC",
+          "tags": [
+            "WeaponRecoilReductionMod"
+          ]
+        },
+        {
+          "abbr": "PUNC",
+          "tags": [
+            "WeaponArmorPiercingDamageMod"
+          ]
+        },
+        {
+          "abbr": "ZOOM",
+          "tags": [
+            "WeaponZoomFovMod"
+          ]
+        }
+      ],
+      "note": "(NOTE: REC is high on this, -PUNC hurts damage but collectors still buy it)"
+    }
+  },
+  "unmapped": []
+}

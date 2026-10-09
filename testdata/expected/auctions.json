@@ -1,0 +1,147 @@
+[
+  {
+    "id": "7bc137478f1d2174e8e5e36e",
+    "buyout_price": 395,
+    "starting_price": 395,
+    "is_direct_sell": true,
+    "name": "roll1",
+    "polarity": "vazarin",
+    "mod_rank": 0,
+    "re_rolls": 0,
+    "mastery_level": 8,
+    "attributes": [
+      {
+        "url_name": "multishot",
+        "value": 1.0,
+        "positive": true
+      },
+      {
+        "url_name": "status_duration",
+        "value": 1.0,
+        "positive": true
+      },
+      {
+        "url_name": "punch_through",
+        "value": 1.0,
+        "positive": true
+      }
+    ],
+    "owner_name": "Tenno1",
+    "owner_status": "offline",
+    "updated": "2026-10-06T06:47:10.000+00:00"
+  },
+  {
+    "id": "103920e9619b4324a09bae2b",
+    "buyout_price": 400,
+    "starting_price": 400,
+    "is_direct_sell": true,
+    "name": "roll2",
+    "polarity": "vazarin",
+    "mod_rank": 8,
+    "re_rolls": 104,
+    "mastery_level": 16,
+    "attributes": [
+      {
+        "url_name": "multishot",
+        "value": 82.2,
+        "positive": true
+      },
+      {
+        "url_name": "fire_rate_/_attack_speed",
+        "value": 56.1,
+        "positive": true
+      },
+      {
+        "url_name": "toxin_damage",
+        "value": 88.8,
+        "positive": true
+      }
+    ],
+    "owner_name": "Tenno2",
+    "owner_status": "offline",
+    "updated": "2026-10-08T13:41:50.000+00:00"
+  },
+  {
+    "id": "e50f3f9fea6cfa3bb8d37004",
+    "buyout_price": 400,
+    "starting_price": 400,
+    "is_direct_sell": true,
+    "name": "roll3",
+    "polarity": "madurai",
+    "mod_rank": 8,
+    "re_rolls": 9,
+    "mastery_level": 12,
+    "attributes": [
+      {
+        "url_name": "base_damage_/_melee_damage",
+        "value": 171.9,
+        "positive": true
+      },
+      {
+        "url_name": "critical_damage",
+        "value": 115.1,
+        "positive": true
+      },
+      {
+        "url_name": "damage_vs_corpus",
+        "value": 1.48,
+        "positive": true
+      }
+    ],
+    "owner_name": "Tenno3",
+    "owner_status": "offline",
+    "updated": "2026-10-08T11:10:47.000+00:00"
+  },
+  {
+    "id": "0cc05a01fb4c39f43bfe9465",
+    "buyout_price": 400,
+    "starting_price": 400,
+    "is_direct_sell": true,
+    "name": "roll4",
+    "polarity": "naramon",
+    "mod_rank": 0,
+    "re_rolls": 3,
+    "mastery_level": 15,
+    "attributes": [
+      {
+        "url_name": "toxin_damage",
+        "value": 126.8,
+        "positive": true
+      },
+      {
+        "url_name": "multishot",
+        "value": 106.1,
+        "positive": true
+      }
+    ],
+    "owner_name": "Tenno4",
+    "owner_status": "offline",
+    "updated": "2026-10-07T12:54:45.000+00:00"
+  },
+  {
+    "id": "88760168238be0f7482ab666",
+    "buyout_price": 400,
+    "starting_price": 400,
+    "is_direct_sell": true,
+    "name": "roll5",
+    "polarity": "naramon",
+    "mod_rank": 8,
+    "re_rolls": 101,
+    "mastery_level": 14,
+    "attributes": [
+      {
+        "url_name": "critical_chance",
+        "value": 195.3,
+        "positive": true
+      },
+      {
+        "url_name": "critical_damage",
+        "value": 145.2,
+        "positive": true
+      }
+    ],
+    "owner_name": "Tenno5",
+    "owner_status": "offline",
+    "updated": "2026-10-04T21:42:49.000+00:00"
+  }
+]

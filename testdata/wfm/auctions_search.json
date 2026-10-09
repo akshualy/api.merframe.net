@@ -1,0 +1,291 @@
+{
+  "payload": {
+    "auctions": [
+      {
+        "note": "",
+        "visible": true,
+        "starting_price": 395,
+        "minimal_reputation": 0,
+        "buyout_price": 395,
+        "platform": "pc",
+        "crossplay": true,
+        "closed": false,
+        "top_bid": null,
+        "is_marked_for": null,
+        "marked_operation_at": null,
+        "created": "2026-10-06T06:47:10.000+00:00",
+        "updated": "2026-10-06T06:47:10.000+00:00",
+        "note_raw": "",
+        "is_direct_sell": true,
+        "id": "7bc137478f1d2174e8e5e36e",
+        "owner": {
+          "reputation": 2,
+          "platform": "pc",
+          "crossplay": true,
+          "locale": "en",
+          "avatar": null,
+          "last_seen": "2026-10-06T20:50:57.841+00:00",
+          "ingame_name": "Tenno1",
+          "slug": "tenno1",
+          "status": "offline",
+          "id": "1557f949eb074ee1de813d35",
+          "region": "en"
+        },
+        "winner": null,
+        "item": {
+          "attributes": [
+            {
+              "value": 1.0,
+              "positive": true,
+              "url_name": "multishot"
+            },
+            {
+              "value": 1.0,
+              "positive": true,
+              "url_name": "status_duration"
+            },
+            {
+              "value": 1.0,
+              "positive": true,
+              "url_name": "punch_through"
+            }
+          ],
+          "mod_rank": 0,
+          "type": "riven",
+          "polarity": "vazarin",
+          "re_rolls": 0,
+          "name": "roll1",
+          "weapon_url_name": "torid",
+          "mastery_level": 8
+        },
+        "private": false
+      },
+      {
+        "note": "",
+        "starting_price": 400,
+        "buyout_price": 400,
+        "minimal_reputation": 0,
+        "visible": true,
+        "platform": "pc",
+        "crossplay": true,
+        "closed": false,
+        "top_bid": null,
+        "is_marked_for": null,
+        "marked_operation_at": null,
+        "created": "2026-10-08T13:41:50.000+00:00",
+        "updated": "2026-10-08T13:41:50.000+00:00",
+        "note_raw": "",
+        "is_direct_sell": true,
+        "id": "103920e9619b4324a09bae2b",
+        "owner": {
+          "reputation": 2,
+          "platform": "pc",
+          "avatar": null,
+          "last_seen": "2026-10-08T13:52:17.974+00:00",
+          "ingame_name": "Tenno2",
+          "locale": "en",
+          "slug": "tenno2",
+          "crossplay": true,
+          "status": "offline",
+          "id": "713a34a3c313be426d15b5c6",
+          "region": "en"
+        },
+        "winner": null,
+        "item": {
+          "mastery_level": 16,
+          "weapon_url_name": "torid",
+          "name": "roll2",
+          "type": "riven",
+          "re_rolls": 104,
+          "attributes": [
+            {
+              "value": 82.2,
+              "positive": true,
+              "url_name": "multishot"
+            },
+            {
+              "value": 56.1,
+              "positive": true,
+              "url_name": "fire_rate_/_attack_speed"
+            },
+            {
+              "value": 88.8,
+              "positive": true,
+              "url_name": "toxin_damage"
+            }
+          ],
+          "polarity": "vazarin",
+          "mod_rank": 8
+        },
+        "private": false
+      },
+      {
+        "buyout_price": 400,
+        "starting_price": 400,
+        "minimal_reputation": 0,
+        "note": "",
+        "visible": true,
+        "platform": "pc",
+        "crossplay": true,
+        "closed": false,
+        "top_bid": null,
+        "is_marked_for": null,
+        "marked_operation_at": null,
+        "created": "2026-10-08T11:10:47.000+00:00",
+        "updated": "2026-10-08T11:10:47.000+00:00",
+        "note_raw": "",
+        "is_direct_sell": true,
+        "id": "e50f3f9fea6cfa3bb8d37004",
+        "owner": {
+          "reputation": 1,
+          "platform": "pc",
+          "locale": "zh-hans",
+          "avatar": null,
+          "last_seen": "2026-10-08T11:11:41.208+00:00",
+          "ingame_name": "Tenno3",
+          "slug": "tenno3",
+          "crossplay": true,
+          "status": "offline",
+          "id": "f2047532a0e8f1ca30e23916",
+          "region": "en"
+        },
+        "winner": null,
+        "item": {
+          "polarity": "madurai",
+          "name": "roll3",
+          "weapon_url_name": "torid",
+          "mod_rank": 8,
+          "re_rolls": 9,
+          "attributes": [
+            {
+              "value": 171.9,
+              "positive": true,
+              "url_name": "base_damage_/_melee_damage"
+            },
+            {
+              "value": 115.1,
+              "positive": true,
+              "url_name": "critical_damage"
+            },
+            {
+              "value": 1.48,
+              "positive": true,
+              "url_name": "damage_vs_corpus"
+            }
+          ],
+          "mastery_level": 12,
+          "type": "riven"
+        },
+        "private": false
+      },
+      {
+        "note": "",
+        "visible": true,
+        "starting_price": 400,
+        "minimal_reputation": 0,
+        "buyout_price": 400,
+        "platform": "pc",
+        "crossplay": true,
+        "closed": false,
+        "top_bid": null,
+        "is_marked_for": null,
+        "marked_operation_at": null,
+        "created": "2026-10-07T12:54:45.000+00:00",
+        "updated": "2026-10-07T12:54:45.000+00:00",
+        "note_raw": "",
+        "is_direct_sell": true,
+        "id": "0cc05a01fb4c39f43bfe9465",
+        "owner": {
+          "reputation": 0,
+          "platform": "pc",
+          "crossplay": true,
+          "locale": "zh-hans",
+          "avatar": null,
+          "last_seen": "2026-10-07T23:05:03.660+00:00",
+          "ingame_name": "Tenno4",
+          "slug": "tenno4",
+          "status": "offline",
+          "id": "00155506969316836e9c4649",
+          "region": "en"
+        },
+        "winner": null,
+        "item": {
+          "attributes": [
+            {
+              "value": 126.8,
+              "positive": true,
+              "url_name": "toxin_damage"
+            },
+            {
+              "value": 106.1,
+              "positive": true,
+              "url_name": "multishot"
+            }
+          ],
+          "mod_rank": 0,
+          "type": "riven",
+          "polarity": "naramon",
+          "re_rolls": 3,
+          "name": "roll4",
+          "weapon_url_name": "torid",
+          "mastery_level": 15
+        },
+        "private": false
+      },
+      {
+        "note": "",
+        "buyout_price": 400,
+        "starting_price": 400,
+        "visible": true,
+        "minimal_reputation": 0,
+        "platform": "pc",
+        "crossplay": true,
+        "closed": false,
+        "top_bid": null,
+        "is_marked_for": null,
+        "marked_operation_at": null,
+        "created": "2026-10-04T21:42:49.000+00:00",
+        "updated": "2026-10-04T21:42:49.000+00:00",
+        "note_raw": "",
+        "is_direct_sell": true,
+        "id": "88760168238be0f7482ab666",
+        "owner": {
+          "reputation": 0,
+          "platform": "pc",
+          "crossplay": true,
+          "locale": "en",
+          "avatar": null,
+          "last_seen": "2026-10-08T18:08:56.747+00:00",
+          "ingame_name": "Tenno5",
+          "slug": "tenno5",
+          "status": "offline",
+          "id": "47e8d924257052f50384dc99",
+          "region": "en"
+        },
+        "winner": null,
+        "item": {
+          "mastery_level": 14,
+          "re_rolls": 101,
+          "mod_rank": 8,
+          "attributes": [
+            {
+              "value": 195.3,
+              "positive": true,
+              "url_name": "critical_chance"
+            },
+            {
+              "value": 145.2,
+              "positive": true,
+              "url_name": "critical_damage"
+            }
+          ],
+          "weapon_url_name": "torid",
+          "type": "riven",
+          "name": "roll5",
+          "polarity": "naramon"
+        },
+        "private": false
+      }
+    ]
+  }
+}

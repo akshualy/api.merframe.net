@@ -1,0 +1,31 @@
+name: deploy
+
+on:
+  workflow_run:
+    workflows: [ci]
+    branches: [main]
+    types: [completed]
+
+concurrency: deploy
+
+jobs:
+  vps:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      VPS: ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}
+    steps:
+      - name: Load the deploy key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.VPS_HOST_KEY }}" > ~/.ssh/known_hosts
+      - name: Pull and restart the stack
+        run: |
+          ssh "$VPS" 'set -eu
+            cd ~/merframe
+            git fetch --quiet origin main
+            git reset --quiet --hard ${{ github.event.workflow_run.head_sha }}
+            make up
+            docker image prune -f'

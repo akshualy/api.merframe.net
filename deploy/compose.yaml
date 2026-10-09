@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: merframe
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set it in .env}
+      POSTGRES_DB: merframe
+    volumes:
+      - postgres:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U merframe -d merframe"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+
+  collector:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: merframe-api
+    entrypoint: ["/collector"]
+    network_mode: host
+    environment:
+      MERFRAME_DATABASE_URL: postgres://merframe:${POSTGRES_PASSWORD}@127.0.0.1:5432/merframe
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    image: merframe-api
+    environment:
+      MERFRAME_DATABASE_URL: postgres://merframe:${POSTGRES_PASSWORD}@postgres:5432/merframe
+      MERFRAME_LISTEN_ADDR: :8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.9.3
+    profiles: ["edge"]
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:?set it in .env}
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres:

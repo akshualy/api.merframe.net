@@ -1,0 +1,190 @@
+{
+  "weapons": [
+    {
+      "game_ref": "/Lotus/Weapons/Ostron/Melee/ModularMelee01/Tip/TipOne",
+      "slug": "balla",
+      "name": "Balla",
+      "group": "zaw",
+      "riven_type": "zaw",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusModularMeleeRandomModRare",
+      "disposition": 0.8,
+      "mastery_rank": 0
+    },
+    {
+      "game_ref": "/Lotus/Types/Sentinels/SentinelWeapons/BurstLaserPistol",
+      "slug": "burst_laser",
+      "name": "Burst Laser",
+      "group": "sentinel",
+      "riven_type": "pistol",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusPistolRandomModRare",
+      "disposition": 1.45,
+      "mastery_rank": 0
+    },
+    {
+      "game_ref": "/Lotus/Types/Sentinels/SentinelWeapons/SentGlaiveWeapon",
+      "slug": "deconstructor",
+      "name": "Deconstructor",
+      "group": "sentinel",
+      "riven_type": "melee",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/PlayerMeleeWeaponRandomModRare",
+      "disposition": 1.25,
+      "mastery_rank": 0
+    },
+    {
+      "game_ref": "/Lotus/Weapons/Tenno/Pistols/AllNew1hSG/AllNew1hSG",
+      "slug": "euphona_prime",
+      "name": "Euphona Prime",
+      "group": "secondary",
+      "riven_type": "shotgun",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusShotgunRandomModRare",
+      "disposition": 0.95,
+      "mastery_rank": 14
+    },
+    {
+      "game_ref": "/Lotus/Weapons/Corpus/LongGuns/CrpShapeBlast/CrpShapeBlastShotgun",
+      "slug": "exergis",
+      "name": "Exergis",
+      "group": "primary",
+      "riven_type": "shotgun",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusShotgunRandomModRare",
+      "disposition": 1.1,
+      "mastery_rank": 8
+    },
+    {
+      "game_ref": "/Lotus/Weapons/Cephalon/Melee/Hammer/CephHammerWeapon",
+      "slug": "heliocor",
+      "name": "Heliocor",
+      "group": "melee",
+      "riven_type": "melee",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/PlayerMeleeWeaponRandomModRare",
+      "disposition": 1.35,
+      "mastery_rank": 9
+    },
+    {
+      "game_ref": "/Lotus/Weapons/Grineer/Pistols/GrnTorpedoPistol/GrnTorpedoPistol",
+      "slug": "kulstar",
+      "name": "Kulstar",
+      "group": "secondary",
+      "riven_type": "pistol",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusPistolRandomModRare",
+      "disposition": 1.3,
+      "mastery_rank": 5
+    },
+    {
+      "game_ref": "/Lotus/Weapons/Grineer/HeavyWeapons/GrnHeavyGrenadeLauncher",
+      "slug": "kuva_ayanga",
+      "name": "Kuva Ayanga",
+      "group": "archgun",
+      "riven_type": "rifle",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusArchgunRandomModRare",
+      "disposition": 0.95,
+      "mastery_rank": 13
+    },
+    {
+      "game_ref": "/Lotus/Types/Friendly/Pets/MoaPets/MoaPetComponents/HextraWeapon",
+      "slug": "multron",
+      "name": "Multron",
+      "group": "sentinel",
+      "riven_type": "rifle",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusRifleRandomModRare",
+      "disposition": 1.0,
+      "mastery_rank": 3
+    },
+    {
+      "game_ref": "/Lotus/Weapons/Tenno/LongGuns/GarudaCrossbow/GarudaCrossbow",
+      "slug": "nagantaka",
+      "name": "Nagantaka",
+      "group": "primary",
+      "riven_type": "rifle",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusRifleRandomModRare",
+      "disposition": 1.3,
+      "mastery_rank": 9
+    },
+    {
+      "game_ref": "/Lotus/Types/Sentinels/SentinelWeapons/SentShotgun",
+      "slug": "sweeper",
+      "name": "Sweeper",
+      "group": "sentinel",
+      "riven_type": "shotgun",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusShotgunRandomModRare",
+      "disposition": 1.0,
+      "mastery_rank": 0
+    },
+    {
+      "game_ref": "/Lotus/Weapons/Infested/Pistols/InfKitGun/Barrels/InfBarrelBeam/InfModularBarrelBeamPart",
+      "slug": "vermisplicer",
+      "name": "Vermisplicer",
+      "group": "kitgun",
+      "riven_type": "kitgun",
+      "mod_type": "/Lotus/Upgrades/Mods/Randomized/LotusModularPistolRandomModRare",
+      "disposition": 1.15,
+      "mastery_rank": 0
+    }
+  ],
+  "attributes": [
+    {
+      "slug": "ammo_maximum",
+      "game_ref": "WeaponAmmoMaxMod",
+      "name": "Ammo Maximum",
+      "prefix": "Ampi",
+      "suffix": "Bin",
+      "unit": "percent"
+    },
+    {
+      "slug": "impact_damage",
+      "game_ref": "WeaponImpactDamageMod",
+      "name": "Impact",
+      "prefix": "Magna",
+      "suffix": "Ton",
+      "unit": "percent"
+    },
+    {
+      "slug": "punch_through",
+      "game_ref": "WeaponPunctureDepthMod",
+      "name": "Punch Through",
+      "prefix": "Lexi",
+      "suffix": "Nok",
+      "unit": null
+    },
+    {
+      "slug": "recoil",
+      "game_ref": "WeaponRecoilReductionMod",
+      "name": "Weapon Recoil",
+      "prefix": "Zeti",
+      "suffix": "Mag",
+      "unit": "percent"
+    },
+    {
+      "slug": "slash_damage",
+      "game_ref": "WeaponSlashDamageMod",
+      "name": "Slash",
+      "prefix": "Sci",
+      "suffix": "Sus",
+      "unit": "percent"
+    },
+    {
+      "slug": "status_duration",
+      "game_ref": "WeaponProcTimeMod",
+      "name": "Status Duration",
+      "prefix": "Deci",
+      "suffix": "Des",
+      "unit": "percent"
+    },
+    {
+      "slug": "toxin_damage",
+      "game_ref": "WeaponToxinDamageMod",
+      "name": "Toxin",
+      "prefix": "Toxi",
+      "suffix": "Tox",
+      "unit": "percent"
+    },
+    {
+      "slug": "zoom",
+      "game_ref": "WeaponZoomFovMod",
+      "name": "Zoom",
+      "prefix": "Hera",
+      "suffix": "Lis",
+      "unit": "percent"
+    }
+  ]
+}

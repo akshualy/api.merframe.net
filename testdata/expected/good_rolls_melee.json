@@ -1,0 +1,409 @@
+{
+  "rolls": {
+    "ceramic dagger": {
+      "weapon": "ceramic dagger",
+      "weapon_class": "melee",
+      "alternatives": [
+        {
+          "mandatory": [],
+          "optional": [
+            {
+              "abbr": "CC",
+              "tags": [
+                "WeaponCritChanceMod"
+              ]
+            },
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "IC",
+              "tags": [
+                "WeaponMeleeComboInitialBonusMod"
+              ]
+            },
+            {
+              "abbr": "DMG",
+              "tags": [
+                "WeaponMeleeDamageMod"
+              ]
+            }
+          ],
+          "optional_needed": 3
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "EFF",
+          "tags": [
+            "WeaponMeleeComboEfficiencyMod"
+          ]
+        },
+        {
+          "abbr": "SLIDE",
+          "tags": [
+            "SlideAttackCritChanceMod"
+          ]
+        },
+        {
+          "abbr": "FIN",
+          "tags": [
+            "WeaponMeleeFinisherDamageMod"
+          ]
+        },
+        {
+          "abbr": "PUNC",
+          "tags": [
+            "WeaponArmorPiercingDamageMod"
+          ]
+        }
+      ],
+      "note": "(NOTE: NEGATIVE PUNC hurts for heavy attack, breakpoint of 34 IC to transform incarnon instantly)"
+    },
+    "heat dagger": {
+      "weapon": "heat dagger",
+      "weapon_class": "melee",
+      "alternatives": [
+        {
+          "mandatory": [],
+          "optional": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "RANGE",
+              "tags": [
+                "WeaponMeleeRangeIncMod"
+              ]
+            },
+            {
+              "abbr": "AS",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 3
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "EFF",
+          "tags": [
+            "WeaponMeleeComboEfficiencyMod"
+          ]
+        },
+        {
+          "abbr": "SLIDE",
+          "tags": [
+            "SlideAttackCritChanceMod"
+          ]
+        },
+        {
+          "abbr": "FIN",
+          "tags": [
+            "WeaponMeleeFinisherDamageMod"
+          ]
+        },
+        {
+          "abbr": "IMP",
+          "tags": [
+            "WeaponImpactDamageMod"
+          ]
+        },
+        {
+          "abbr": "PUNC",
+          "tags": [
+            "WeaponArmorPiercingDamageMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "nami skyla": {
+      "weapon": "nami skyla",
+      "weapon_class": "melee",
+      "alternatives": [
+        {
+          "mandatory": [],
+          "optional": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "RANGE",
+              "tags": [
+                "WeaponMeleeRangeIncMod"
+              ]
+            },
+            {
+              "abbr": "AS",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 3
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "EFF",
+          "tags": [
+            "WeaponMeleeComboEfficiencyMod"
+          ]
+        },
+        {
+          "abbr": "SLIDE",
+          "tags": [
+            "SlideAttackCritChanceMod"
+          ]
+        },
+        {
+          "abbr": "FIN",
+          "tags": [
+            "WeaponMeleeFinisherDamageMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "nepheri": {
+      "weapon": "nepheri",
+      "weapon_class": "melee",
+      "alternatives": [
+        {
+          "mandatory": [],
+          "optional": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "RANGE",
+              "tags": [
+                "WeaponMeleeRangeIncMod"
+              ]
+            },
+            {
+              "abbr": "AS",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            }
+          ],
+          "optional_needed": 3
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "EFF",
+          "tags": [
+            "WeaponMeleeComboEfficiencyMod"
+          ]
+        },
+        {
+          "abbr": "SLIDE",
+          "tags": [
+            "SlideAttackCritChanceMod"
+          ]
+        },
+        {
+          "abbr": "FIN",
+          "tags": [
+            "WeaponMeleeFinisherDamageMod"
+          ]
+        },
+        {
+          "abbr": "IMP",
+          "tags": [
+            "WeaponImpactDamageMod"
+          ]
+        },
+        {
+          "abbr": "PUNC",
+          "tags": [
+            "WeaponArmorPiercingDamageMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "ack & brunt": {
+      "weapon": "ack & brunt",
+      "weapon_class": "melee",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "AS",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            },
+            {
+              "abbr": "RANGE",
+              "tags": [
+                "WeaponMeleeRangeIncMod"
+              ]
+            }
+          ],
+          "optional": [],
+          "optional_needed": 0
+        },
+        {
+          "mandatory": [
+            {
+              "abbr": "AS",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            },
+            {
+              "abbr": "ELEC",
+              "tags": [
+                "WeaponElectricityDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "RANGE",
+              "tags": [
+                "WeaponMeleeRangeIncMod"
+              ]
+            }
+          ],
+          "optional_needed": 1
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "EFF",
+          "tags": [
+            "WeaponMeleeComboEfficiencyMod"
+          ]
+        },
+        {
+          "abbr": "SLIDE",
+          "tags": [
+            "SlideAttackCritChanceMod"
+          ]
+        },
+        {
+          "abbr": "FIN",
+          "tags": [
+            "WeaponMeleeFinisherDamageMod"
+          ]
+        }
+      ],
+      "note": null
+    },
+    "amanata": {
+      "weapon": "amanata",
+      "weapon_class": "melee",
+      "alternatives": [
+        {
+          "mandatory": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "AS",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            },
+            {
+              "abbr": "RANGE",
+              "tags": [
+                "WeaponMeleeRangeIncMod"
+              ]
+            }
+          ],
+          "optional": [],
+          "optional_needed": 0
+        },
+        {
+          "mandatory": [
+            {
+              "abbr": "AS",
+              "tags": [
+                "WeaponFireRateMod"
+              ]
+            },
+            {
+              "abbr": "ELEC",
+              "tags": [
+                "WeaponElectricityDamageMod"
+              ]
+            }
+          ],
+          "optional": [
+            {
+              "abbr": "CD",
+              "tags": [
+                "WeaponCritDamageMod"
+              ]
+            },
+            {
+              "abbr": "RANGE",
+              "tags": [
+                "WeaponMeleeRangeIncMod"
+              ]
+            }
+          ],
+          "optional_needed": 1
+        }
+      ],
+      "accepted_bad": [
+        {
+          "abbr": "EFF",
+          "tags": [
+            "WeaponMeleeComboEfficiencyMod"
+          ]
+        },
+        {
+          "abbr": "SLIDE",
+          "tags": [
+            "SlideAttackCritChanceMod"
+          ]
+        },
+        {
+          "abbr": "FIN",
+          "tags": [
+            "WeaponMeleeFinisherDamageMod"
+          ]
+        }
+      ],
+      "note": null
+    }
+  },
+  "unmapped": []
+}
