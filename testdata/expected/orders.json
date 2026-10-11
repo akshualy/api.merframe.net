@@ -18,5 +18,15 @@
     "buy_max": 40,
     "sell_count": 4,
     "buy_count": 2
+  },
+  "neo_k6_relic": {
+    "sell_r0": 5,
+    "sell_max": null,
+    "sell_r0_online": 4,
+    "sell_max_online": null,
+    "buy_r0": 2,
+    "buy_max": null,
+    "sell_count": 3,
+    "buy_count": 2
   }
 }

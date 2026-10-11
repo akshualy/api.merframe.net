@@ -37,10 +37,10 @@ type Day struct {
 	WA     float64
 }
 
-func dailySeries(entries []wfm.ClosedEntry) ([]Day, error) {
+func dailySeries(entries []wfm.ClosedEntry, item wfm.Item) ([]Day, error) {
 	days := []Day{}
 	for _, entry := range entries {
-		if !baseRank(entry.ModRank) {
+		if !baseVariant(item, entry) {
 			continue
 		}
 
@@ -59,7 +59,7 @@ func dailySeries(entries []wfm.ClosedEntry) ([]Day, error) {
 	return days, nil
 }
 
-func computeStatistics(last48h []wfm.ClosedEntry, days []Day, now time.Time) Statistics {
+func computeStatistics(last48h []wfm.ClosedEntry, days []Day, item wfm.Item, now time.Time) Statistics {
 	week := window(days, 7, now)
 	month := window(days, 30, now)
 	quarter := window(days, 90, now)
@@ -67,7 +67,7 @@ func computeStatistics(last48h []wfm.ClosedEntry, days []Day, now time.Time) Sta
 	beforeWeek := previousWindow(days, 7, now)
 	beforeMonth := previousWindow(days, 30, now)
 	s := Statistics{
-		Median48h:     closedMedian(last48h),
+		Median48h:     closedMedian(last48h, item),
 		Volume7d:      volume(week),
 		Volume30d:     volume(month),
 		Volume90d:     volume(quarter),
@@ -83,7 +83,9 @@ func computeStatistics(last48h []wfm.ClosedEntry, days []Day, now time.Time) Sta
 		MedianPrev30d: median(beforeMonth),
 	}
 	for _, entry := range last48h {
-		s.Volume48h += entry.Volume
+		if baseVariant(item, entry) {
+			s.Volume48h += entry.Volume
+		}
 	}
 
 	for i, day := range quarter {
@@ -98,11 +100,16 @@ func computeStatistics(last48h []wfm.ClosedEntry, days []Day, now time.Time) Sta
 	return s
 }
 
-func closedMedian(entries []wfm.ClosedEntry) *float64 {
+// baseVariant keeps the closed trades of the variant the quote describes: rank 0 or unranked, base subtype or none.
+func baseVariant(item wfm.Item, entry wfm.ClosedEntry) bool {
+	return baseRank(entry.ModRank) && baseSubtype(item, entry.Subtype)
+}
+
+func closedMedian(entries []wfm.ClosedEntry, item wfm.Item) *float64 {
 	var newest *wfm.ClosedEntry
 	for i := range entries {
 		entry := &entries[i]
-		if baseRank(entry.ModRank) && (newest == nil || entry.Datetime > newest.Datetime) {
+		if baseVariant(item, *entry) && (newest == nil || entry.Datetime > newest.Datetime) {
 			newest = entry
 		}
 	}

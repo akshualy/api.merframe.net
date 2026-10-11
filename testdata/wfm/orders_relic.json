@@ -1,0 +1,149 @@
+{
+  "apiVersion": "0.25.0",
+  "data": [
+    {
+      "id": "000000000000000000000001",
+      "type": "sell",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "subtype": "intact",
+      "createdAt": "2026-10-01T10:00:00Z",
+      "updatedAt": "2026-10-10T10:00:00Z",
+      "itemId": "5a2feeb1c2c9e90cbdaa23d2",
+      "user": {
+        "id": "000000000000000000000a01",
+        "ingameName": "Tenno1",
+        "slug": "tenno1",
+        "reputation": 5,
+        "platform": "pc",
+        "crossplay": true,
+        "locale": "en",
+        "status": "ingame",
+        "lastSeen": "2026-10-10T10:00:00Z",
+        "avatar": null
+      }
+    },
+    {
+      "id": "000000000000000000000002",
+      "type": "sell",
+      "platinum": 4,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "subtype": "intact",
+      "createdAt": "2026-10-01T10:00:00Z",
+      "updatedAt": "2026-10-10T10:00:00Z",
+      "itemId": "5a2feeb1c2c9e90cbdaa23d2",
+      "user": {
+        "id": "000000000000000000000a02",
+        "ingameName": "Tenno2",
+        "slug": "tenno2",
+        "reputation": 5,
+        "platform": "pc",
+        "crossplay": true,
+        "locale": "en",
+        "status": "online",
+        "lastSeen": "2026-10-10T10:00:00Z",
+        "avatar": null
+      }
+    },
+    {
+      "id": "000000000000000000000003",
+      "type": "sell",
+      "platinum": 3,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "subtype": "radiant",
+      "createdAt": "2026-10-01T10:00:00Z",
+      "updatedAt": "2026-10-10T10:00:00Z",
+      "itemId": "5a2feeb1c2c9e90cbdaa23d2",
+      "user": {
+        "id": "000000000000000000000a03",
+        "ingameName": "Tenno3",
+        "slug": "tenno3",
+        "reputation": 5,
+        "platform": "pc",
+        "crossplay": true,
+        "locale": "en",
+        "status": "ingame",
+        "lastSeen": "2026-10-10T10:00:00Z",
+        "avatar": null
+      }
+    },
+    {
+      "id": "000000000000000000000004",
+      "type": "buy",
+      "platinum": 2,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "subtype": "intact",
+      "createdAt": "2026-10-01T10:00:00Z",
+      "updatedAt": "2026-10-10T10:00:00Z",
+      "itemId": "5a2feeb1c2c9e90cbdaa23d2",
+      "user": {
+        "id": "000000000000000000000a04",
+        "ingameName": "Tenno4",
+        "slug": "tenno4",
+        "reputation": 5,
+        "platform": "pc",
+        "crossplay": true,
+        "locale": "en",
+        "status": "online",
+        "lastSeen": "2026-10-10T10:00:00Z",
+        "avatar": null
+      }
+    },
+    {
+      "id": "000000000000000000000005",
+      "type": "buy",
+      "platinum": 30,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "subtype": "radiant",
+      "createdAt": "2026-10-01T10:00:00Z",
+      "updatedAt": "2026-10-10T10:00:00Z",
+      "itemId": "5a2feeb1c2c9e90cbdaa23d2",
+      "user": {
+        "id": "000000000000000000000a05",
+        "ingameName": "Tenno5",
+        "slug": "tenno5",
+        "reputation": 5,
+        "platform": "pc",
+        "crossplay": true,
+        "locale": "en",
+        "status": "ingame",
+        "lastSeen": "2026-10-10T10:00:00Z",
+        "avatar": null
+      }
+    },
+    {
+      "id": "000000000000000000000006",
+      "type": "sell",
+      "platinum": 6,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "subtype": "intact",
+      "createdAt": "2026-10-01T10:00:00Z",
+      "updatedAt": "2026-10-10T10:00:00Z",
+      "itemId": "5a2feeb1c2c9e90cbdaa23d2",
+      "user": {
+        "id": "000000000000000000000a06",
+        "ingameName": "Tenno6",
+        "slug": "tenno6",
+        "reputation": 5,
+        "platform": "pc",
+        "crossplay": true,
+        "locale": "en",
+        "status": "offline",
+        "lastSeen": "2026-10-10T10:00:00Z",
+        "avatar": null
+      }
+    }
+  ]
+}

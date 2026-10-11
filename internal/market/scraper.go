@@ -52,7 +52,7 @@ type Scraper struct {
 	log       *slog.Logger
 
 	catalog    Catalog
-	maxRanks   map[string]*int
+	items      map[string]wfm.Item
 	prime      map[string]bool
 	prices     map[string]Price
 	untradable map[string]bool
@@ -66,7 +66,7 @@ func NewScraper(source Source, store Store, publisher Publisher, intervals Inter
 		publisher:  publisher,
 		intervals:  intervals,
 		log:        log,
-		maxRanks:   map[string]*int{},
+		items:      map[string]wfm.Item{},
 		prime:      map[string]bool{},
 		untradable: map[string]bool{},
 		failedAt:   map[string]time.Time{},
@@ -128,17 +128,17 @@ func (s *Scraper) load(ctx context.Context) error {
 		}
 	}
 
-	s.log.Info("price table loaded", "items", len(prices), "known", len(s.maxRanks))
+	s.log.Info("price table loaded", "items", len(prices), "known", len(s.items))
 	return nil
 }
 
 func (s *Scraper) setCatalog(c Catalog) {
 	s.catalog = c
-	s.maxRanks = make(map[string]*int, len(c.Items))
+	s.items = make(map[string]wfm.Item, len(c.Items))
 	s.prime = map[string]bool{}
 
 	for _, item := range c.Items {
-		s.maxRanks[item.Slug] = item.MaxRank
+		s.items[item.Slug] = item
 		if slices.Contains(item.Tags, "prime") {
 			s.prime[item.Slug] = true
 		}
@@ -170,12 +170,12 @@ func (s *Scraper) refreshCatalog(ctx context.Context) error {
 	clear(s.failedAt)
 
 	for slug := range s.prices {
-		if _, known := s.maxRanks[slug]; !known {
+		if _, known := s.items[slug]; !known {
 			delete(s.prices, slug)
 		}
 	}
 
-	s.log.Info("item list refreshed", "items", len(s.maxRanks), "dropped", dropped)
+	s.log.Info("item list refreshed", "items", len(s.items), "dropped", dropped)
 	return nil
 }
 
@@ -192,7 +192,7 @@ func (s *Scraper) due(now time.Time) []dueItem {
 		dueItem
 	}
 	var found []candidate
-	for slug := range s.maxRanks {
+	for slug := range s.items {
 		if s.untradable[slug] || now.Sub(s.failedAt[slug]) < failedRetryPause {
 			continue
 		}
@@ -293,9 +293,10 @@ func (s *Scraper) fetchPrice(ctx context.Context, slug string, withStats bool) (
 		return nil, nil, err
 	}
 
+	item := s.items[slug]
 	previous := s.prices[slug]
 	price := Price{
-		Quote:        quoteOf(orders, s.maxRanks[slug]),
+		Quote:        quoteOf(orders, item),
 		Statistics:   previous.Statistics,
 		StatisticsAt: previous.StatisticsAt,
 		UpdatedAt:    time.Now(),
@@ -308,12 +309,12 @@ func (s *Scraper) fetchPrice(ctx context.Context, slug string, withStats bool) (
 		}
 
 		if err == nil {
-			days, err = dailySeries(closed.Last90Days)
+			days, err = dailySeries(closed.Last90Days, item)
 			if err != nil {
 				return nil, nil, err
 			}
 
-			price.Statistics = computeStatistics(closed.Last48Hours, days, price.UpdatedAt)
+			price.Statistics = computeStatistics(closed.Last48Hours, days, item, price.UpdatedAt)
 		}
 
 		price.StatisticsAt = price.UpdatedAt

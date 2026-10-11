@@ -55,7 +55,7 @@ func TestStatistics(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	days, err := dailySeries(envelope.Payload.Closed.Last90Days)
+	days, err := dailySeries(envelope.Payload.Closed.Last90Days, wfm.Item{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,21 +71,45 @@ func TestStatistics(t *testing.T) {
 		}
 	}
 
-	got := computeStatistics(envelope.Payload.Closed.Last48Hours, days, now)
+	got := computeStatistics(envelope.Payload.Closed.Last48Hours, days, wfm.Item{}, now)
 	if diff := cmp.Diff(Statistics(expected.Statistics), got); diff != "" {
 		t.Errorf("statistics (-want +got):\n%s", diff)
 	}
 }
 
 func TestStatisticsEmpty(t *testing.T) {
-	got := computeStatistics(nil, nil, time.Now())
+	got := computeStatistics(nil, nil, wfm.Item{}, time.Now())
 	if diff := cmp.Diff(Statistics{}, got); diff != "" {
 		t.Errorf("statistics of nothing (-want +got):\n%s", diff)
 	}
 }
 
 func TestDailySeriesBadDate(t *testing.T) {
-	if _, err := dailySeries([]wfm.ClosedEntry{{Datetime: "yesterday"}}); err == nil {
+	if _, err := dailySeries([]wfm.ClosedEntry{{Datetime: "yesterday"}}, wfm.Item{}); err == nil {
 		t.Error("dailySeries accepted an unparsable date, want an error")
+	}
+}
+
+func TestDailySeriesRelicRefinements(t *testing.T) {
+	radiant := "radiant"
+	intact := "intact"
+	entries := []wfm.ClosedEntry{
+		{Datetime: "2026-10-09T00:00:00.000+00:00", Volume: 3, Median: 20, Subtype: &radiant},
+		{Datetime: "2026-10-09T00:00:00.000+00:00", Volume: 24, Median: 4, Subtype: &intact},
+		{Datetime: "2026-10-10T00:00:00.000+00:00", Volume: 25, Median: 4.5, Subtype: &intact},
+	}
+	days, err := dailySeries(entries, relic)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(days) != 2 || days[0].Volume != 24 || days[0].Median != 4 {
+		t.Errorf("days = %+v, want the two intact days only", days)
+	}
+
+	now, _ := time.Parse(time.RFC3339, "2026-10-10T12:00:00Z")
+	got := computeStatistics(entries, days, relic, now)
+	if got.Volume48h != 49 || got.Median48h == nil || *got.Median48h != 4.5 {
+		t.Errorf("48h volume %d median %v, want 49 and 4.5 from intact trades", got.Volume48h, got.Median48h)
 	}
 }

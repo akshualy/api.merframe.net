@@ -258,7 +258,7 @@ func TestScraperCatalogRefresh(t *testing.T) {
 		s := NewScraper(source, store, &fakePublisher{}, intervals, slog.New(slog.DiscardHandler))
 		runFor(t, s, time.Minute)
 
-		if _, kept := s.prices["old_name"]; kept || len(s.maxRanks) != 1 {
+		if _, kept := s.prices["old_name"]; kept || len(s.items) != 1 {
 			t.Errorf("prices %v after the refresh, want old_name gone", s.prices)
 		}
 	})

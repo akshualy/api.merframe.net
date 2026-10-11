@@ -3,10 +3,11 @@ package wfm
 import "encoding/json"
 
 type Item struct {
-	ID      string   `json:"id"`
-	Slug    string   `json:"slug"`
-	Tags    []string `json:"tags"`
-	MaxRank *int     `json:"maxRank"`
+	ID       string   `json:"id"`
+	Slug     string   `json:"slug"`
+	Tags     []string `json:"tags"`
+	MaxRank  *int     `json:"maxRank"`
+	Subtypes []string `json:"subtypes"`
 }
 
 // Catalog keeps the raw array and parsed entries. Clients receive it unparsed.
@@ -16,10 +17,11 @@ type Catalog struct {
 }
 
 type Order struct {
-	Type     string `json:"type"`
-	Platinum int    `json:"platinum"`
-	Rank     *int   `json:"rank"`
-	Visible  bool   `json:"visible"`
+	Type     string  `json:"type"`
+	Platinum int     `json:"platinum"`
+	Rank     *int    `json:"rank"`
+	Subtype  *string `json:"subtype"`
+	Visible  bool    `json:"visible"`
 	User     struct {
 		Status string `json:"status"`
 	} `json:"user"`
@@ -33,6 +35,7 @@ type ClosedEntry struct {
 	WAPrice  float64 `json:"wa_price"`
 	Median   float64 `json:"median"`
 	ModRank  *int    `json:"mod_rank"`
+	Subtype  *string `json:"subtype"`
 }
 
 type ClosedStatistics struct {

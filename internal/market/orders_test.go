@@ -35,16 +35,19 @@ type expectedQuote struct {
 	BuyCount      int  `json:"buy_count"`
 }
 
+var relic = wfm.Item{Subtypes: []string{"intact", "exceptional", "flawless", "radiant"}}
+
 func TestQuote(t *testing.T) {
 	var expected map[string]expectedQuote
 	readJSON(t, "expected", "orders.json", &expected)
 	tests := []struct {
 		slug    string
 		fixture string
-		maxRank *int
+		item    wfm.Item
 	}{
-		{"secura_dual_cestra", "orders_item.json", nil},
-		{"primed_flow", "orders_item_ranked.json", new(10)},
+		{"secura_dual_cestra", "orders_item.json", wfm.Item{}},
+		{"primed_flow", "orders_item_ranked.json", wfm.Item{MaxRank: new(10)}},
+		{"neo_k6_relic", "orders_relic.json", relic},
 	}
 	for _, tt := range tests {
 		t.Run(tt.slug, func(t *testing.T) {
@@ -52,7 +55,7 @@ func TestQuote(t *testing.T) {
 				Data []wfm.Order `json:"data"`
 			}
 			readJSON(t, "wfm", tt.fixture, &envelope)
-			got := quoteOf(envelope.Data, tt.maxRank)
+			got := quoteOf(envelope.Data, tt.item)
 			if diff := cmp.Diff(Quote(expected[tt.slug]), got); diff != "" {
 				t.Errorf("quote (-want +got):\n%s", diff)
 			}
