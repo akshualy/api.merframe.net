@@ -17,25 +17,29 @@ type Catalog struct {
 }
 
 type Order struct {
-	Type     string  `json:"type"`
-	Platinum int     `json:"platinum"`
-	Rank     *int    `json:"rank"`
-	Subtype  *string `json:"subtype"`
-	Visible  bool    `json:"visible"`
-	User     struct {
+	Type       string  `json:"type"`
+	Platinum   int     `json:"platinum"`
+	Rank       *int    `json:"rank"`
+	Subtype    *string `json:"subtype"`
+	CyanStars  int     `json:"cyanStars"`
+	AmberStars int     `json:"amberStars"`
+	Visible    bool    `json:"visible"`
+	User       struct {
 		Status string `json:"status"`
 	} `json:"user"`
 }
 
 type ClosedEntry struct {
-	Datetime string  `json:"datetime"`
-	Volume   int     `json:"volume"`
-	MinPrice float64 `json:"min_price"`
-	MaxPrice float64 `json:"max_price"`
-	WAPrice  float64 `json:"wa_price"`
-	Median   float64 `json:"median"`
-	ModRank  *int    `json:"mod_rank"`
-	Subtype  *string `json:"subtype"`
+	Datetime   string  `json:"datetime"`
+	Volume     int     `json:"volume"`
+	MinPrice   float64 `json:"min_price"`
+	MaxPrice   float64 `json:"max_price"`
+	WAPrice    float64 `json:"wa_price"`
+	Median     float64 `json:"median"`
+	ModRank    *int    `json:"mod_rank"`
+	Subtype    *string `json:"subtype"`
+	CyanStars  int     `json:"cyan_stars"`
+	AmberStars int     `json:"amber_stars"`
 }
 
 type ClosedStatistics struct {

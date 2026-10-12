@@ -28,5 +28,15 @@
     "buy_max": null,
     "sell_count": 3,
     "buy_count": 2
+  },
+  "ayatan_anasa_sculpture": {
+    "sell_r0": 9,
+    "sell_max": null,
+    "sell_r0_online": 8,
+    "sell_max_online": null,
+    "buy_r0": 7,
+    "buy_max": null,
+    "sell_count": 4,
+    "buy_count": 2
   }
 }

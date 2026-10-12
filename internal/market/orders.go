@@ -21,19 +21,16 @@ type Quote struct {
 func quoteOf(orders []wfm.Order, item wfm.Item) Quote {
 	ingame := tradeable(orders, "ingame")
 	active := tradeable(orders, "ingame", "online")
-	base := func(o wfm.Order) bool { return baseRank(o.Rank) && baseSubtype(item, o.Subtype) }
+	v := orderVariant(item, orders)
 	q := Quote{
-		SellR0:       lowestSell(ingame, base),
-		SellR0Online: lowestSell(active, base),
-		BuyR0:        highestBuy(active, base),
+		SellR0:       lowestSell(ingame, v.order),
+		SellR0Online: lowestSell(active, v.order),
+		BuyR0:        highestBuy(active, v.order),
 	}
 	if item.MaxRank != nil && *item.MaxRank > 0 {
-		top := func(o wfm.Order) bool {
-			return o.Rank != nil && *o.Rank == *item.MaxRank && baseSubtype(item, o.Subtype)
-		}
-		q.SellMax = lowestSell(ingame, top)
-		q.SellMaxOnline = lowestSell(active, top)
-		q.BuyMax = highestBuy(active, top)
+		q.SellMax = lowestSell(ingame, v.topRank)
+		q.SellMaxOnline = lowestSell(active, v.topRank)
+		q.BuyMax = highestBuy(active, v.topRank)
 	}
 
 	for _, order := range active {
@@ -59,15 +56,6 @@ func tradeable(orders []wfm.Order, statuses ...string) []wfm.Order {
 		}
 	}
 	return out
-}
-
-func baseRank(rank *int) bool {
-	return rank == nil || *rank == 0
-}
-
-// baseSubtype accepts the first subtype the catalog lists for the item (intact for relics, small for fish) and entries without one.
-func baseSubtype(item wfm.Item, subtype *string) bool {
-	return subtype == nil || len(item.Subtypes) == 0 || *subtype == item.Subtypes[0]
 }
 
 func lowestSell(orders []wfm.Order, variant func(wfm.Order) bool) *int {

@@ -309,12 +309,13 @@ func (s *Scraper) fetchPrice(ctx context.Context, slug string, withStats bool) (
 		}
 
 		if err == nil {
-			days, err = dailySeries(closed.Last90Days, item)
+			v := closedVariant(item, closed)
+			days, err = dailySeries(closed.Last90Days, v)
 			if err != nil {
 				return nil, nil, err
 			}
 
-			price.Statistics = computeStatistics(closed.Last48Hours, days, item, price.UpdatedAt)
+			price.Statistics = computeStatistics(closed.Last48Hours, days, v, price.UpdatedAt)
 		}
 
 		price.StatisticsAt = price.UpdatedAt

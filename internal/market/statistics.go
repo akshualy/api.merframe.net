@@ -37,10 +37,10 @@ type Day struct {
 	WA     float64
 }
 
-func dailySeries(entries []wfm.ClosedEntry, item wfm.Item) ([]Day, error) {
+func dailySeries(entries []wfm.ClosedEntry, v variant) ([]Day, error) {
 	days := []Day{}
 	for _, entry := range entries {
-		if !baseVariant(item, entry) {
+		if !v.entry(entry) {
 			continue
 		}
 
@@ -59,7 +59,7 @@ func dailySeries(entries []wfm.ClosedEntry, item wfm.Item) ([]Day, error) {
 	return days, nil
 }
 
-func computeStatistics(last48h []wfm.ClosedEntry, days []Day, item wfm.Item, now time.Time) Statistics {
+func computeStatistics(last48h []wfm.ClosedEntry, days []Day, v variant, now time.Time) Statistics {
 	week := window(days, 7, now)
 	month := window(days, 30, now)
 	quarter := window(days, 90, now)
@@ -67,7 +67,7 @@ func computeStatistics(last48h []wfm.ClosedEntry, days []Day, item wfm.Item, now
 	beforeWeek := previousWindow(days, 7, now)
 	beforeMonth := previousWindow(days, 30, now)
 	s := Statistics{
-		Median48h:     closedMedian(last48h, item),
+		Median48h:     closedMedian(last48h, v),
 		Volume7d:      volume(week),
 		Volume30d:     volume(month),
 		Volume90d:     volume(quarter),
@@ -83,7 +83,7 @@ func computeStatistics(last48h []wfm.ClosedEntry, days []Day, item wfm.Item, now
 		MedianPrev30d: median(beforeMonth),
 	}
 	for _, entry := range last48h {
-		if baseVariant(item, entry) {
+		if v.entry(entry) {
 			s.Volume48h += entry.Volume
 		}
 	}
@@ -100,16 +100,11 @@ func computeStatistics(last48h []wfm.ClosedEntry, days []Day, item wfm.Item, now
 	return s
 }
 
-// baseVariant keeps the closed trades of the variant the quote describes: rank 0 or unranked, base subtype or none.
-func baseVariant(item wfm.Item, entry wfm.ClosedEntry) bool {
-	return baseRank(entry.ModRank) && baseSubtype(item, entry.Subtype)
-}
-
-func closedMedian(entries []wfm.ClosedEntry, item wfm.Item) *float64 {
+func closedMedian(entries []wfm.ClosedEntry, v variant) *float64 {
 	var newest *wfm.ClosedEntry
 	for i := range entries {
 		entry := &entries[i]
-		if baseVariant(item, *entry) && (newest == nil || entry.Datetime > newest.Datetime) {
+		if v.entry(*entry) && (newest == nil || entry.Datetime > newest.Datetime) {
 			newest = entry
 		}
 	}

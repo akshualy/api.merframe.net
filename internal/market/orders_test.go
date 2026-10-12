@@ -48,6 +48,7 @@ func TestQuote(t *testing.T) {
 		{"secura_dual_cestra", "orders_item.json", wfm.Item{}},
 		{"primed_flow", "orders_item_ranked.json", wfm.Item{MaxRank: new(10)}},
 		{"neo_k6_relic", "orders_relic.json", relic},
+		{"ayatan_anasa_sculpture", "orders_sculpture.json", wfm.Item{}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.slug, func(t *testing.T) {

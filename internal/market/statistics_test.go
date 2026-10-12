@@ -55,7 +55,7 @@ func TestStatistics(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	days, err := dailySeries(envelope.Payload.Closed.Last90Days, wfm.Item{})
+	days, err := dailySeries(envelope.Payload.Closed.Last90Days, variant{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,21 +71,21 @@ func TestStatistics(t *testing.T) {
 		}
 	}
 
-	got := computeStatistics(envelope.Payload.Closed.Last48Hours, days, wfm.Item{}, now)
+	got := computeStatistics(envelope.Payload.Closed.Last48Hours, days, variant{}, now)
 	if diff := cmp.Diff(Statistics(expected.Statistics), got); diff != "" {
 		t.Errorf("statistics (-want +got):\n%s", diff)
 	}
 }
 
 func TestStatisticsEmpty(t *testing.T) {
-	got := computeStatistics(nil, nil, wfm.Item{}, time.Now())
+	got := computeStatistics(nil, nil, variant{}, time.Now())
 	if diff := cmp.Diff(Statistics{}, got); diff != "" {
 		t.Errorf("statistics of nothing (-want +got):\n%s", diff)
 	}
 }
 
 func TestDailySeriesBadDate(t *testing.T) {
-	if _, err := dailySeries([]wfm.ClosedEntry{{Datetime: "yesterday"}}, wfm.Item{}); err == nil {
+	if _, err := dailySeries([]wfm.ClosedEntry{{Datetime: "yesterday"}}, variant{}); err == nil {
 		t.Error("dailySeries accepted an unparsable date, want an error")
 	}
 }
@@ -98,7 +98,8 @@ func TestDailySeriesRelicRefinements(t *testing.T) {
 		{Datetime: "2026-10-09T00:00:00.000+00:00", Volume: 24, Median: 4, Subtype: &intact},
 		{Datetime: "2026-10-10T00:00:00.000+00:00", Volume: 25, Median: 4.5, Subtype: &intact},
 	}
-	days, err := dailySeries(entries, relic)
+	v := closedVariant(relic, wfm.ClosedStatistics{Last90Days: entries})
+	days, err := dailySeries(entries, v)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -108,8 +109,25 @@ func TestDailySeriesRelicRefinements(t *testing.T) {
 	}
 
 	now, _ := time.Parse(time.RFC3339, "2026-10-10T12:00:00Z")
-	got := computeStatistics(entries, days, relic, now)
+	got := computeStatistics(entries, days, v, now)
 	if got.Volume48h != 49 || got.Median48h == nil || *got.Median48h != 4.5 {
 		t.Errorf("48h volume %d median %v, want 49 and 4.5 from intact trades", got.Volume48h, got.Median48h)
+	}
+}
+
+func TestDailySeriesSculptureSockets(t *testing.T) {
+	entries := []wfm.ClosedEntry{
+		{Datetime: "2026-10-09T00:00:00.000+00:00", Volume: 572, Median: 8, CyanStars: 2, AmberStars: 2},
+		{Datetime: "2026-10-09T00:00:00.000+00:00", Volume: 1, Median: 3},
+		{Datetime: "2026-10-10T00:00:00.000+00:00", Volume: 16, Median: 5},
+	}
+	v := closedVariant(wfm.Item{}, wfm.ClosedStatistics{Last90Days: entries})
+	days, err := dailySeries(entries, v)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(days) != 1 || days[0].Volume != 572 {
+		t.Errorf("days = %+v, want the fully socketed day only", days)
 	}
 }
