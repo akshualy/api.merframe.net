@@ -10,6 +10,32 @@ import (
 	"time"
 )
 
+const dueAuctions = `-- name: DueAuctions :many
+SELECT slug FROM auction_demand
+WHERE crawled_at IS NULL OR (crawled_at < requested_at AND crawled_at < $1::timestamptz)
+ORDER BY crawled_at NULLS FIRST, requested_at
+`
+
+func (q *Queries) DueAuctions(ctx context.Context, before time.Time) ([]string, error) {
+	rows, err := q.db.Query(ctx, dueAuctions, before)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []string
+	for rows.Next() {
+		var slug string
+		if err := rows.Scan(&slug); err != nil {
+			return nil, err
+		}
+		items = append(items, slug)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getBlob = `-- name: GetBlob :one
 SELECT name, etag, body, gzip, brotli, published_at FROM blobs WHERE name = $1
 `
@@ -101,6 +127,20 @@ func (q *Queries) ListBlobTags(ctx context.Context) ([]ListBlobTagsRow, error) {
 	return items, nil
 }
 
+const markAuctionsCrawled = `-- name: MarkAuctionsCrawled :exec
+UPDATE auction_demand SET crawled_at = $2 WHERE slug = $1
+`
+
+type MarkAuctionsCrawledParams struct {
+	Slug      string
+	CrawledAt *time.Time
+}
+
+func (q *Queries) MarkAuctionsCrawled(ctx context.Context, arg MarkAuctionsCrawledParams) error {
+	_, err := q.db.Exec(ctx, markAuctionsCrawled, arg.Slug, arg.CrawledAt)
+	return err
+}
+
 const notifyBlob = `-- name: NotifyBlob :exec
 SELECT pg_notify($1::text, $2::text)
 `
@@ -112,6 +152,22 @@ type NotifyBlobParams struct {
 
 func (q *Queries) NotifyBlob(ctx context.Context, arg NotifyBlobParams) error {
 	_, err := q.db.Exec(ctx, notifyBlob, arg.Channel, arg.Name)
+	return err
+}
+
+const requestAuctions = `-- name: RequestAuctions :exec
+INSERT INTO auction_demand (slug, requested_at)
+VALUES ($1, $2)
+ON CONFLICT (slug) DO UPDATE SET requested_at = EXCLUDED.requested_at
+`
+
+type RequestAuctionsParams struct {
+	Slug        string
+	RequestedAt time.Time
+}
+
+func (q *Queries) RequestAuctions(ctx context.Context, arg RequestAuctionsParams) error {
+	_, err := q.db.Exec(ctx, requestAuctions, arg.Slug, arg.RequestedAt)
 	return err
 }
 

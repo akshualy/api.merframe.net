@@ -32,14 +32,14 @@ The api listens on `MERFRAME_LISTEN_ADDR` (127.0.0.1:8080).
 
 Collector settings are all optional:
 - `MERFRAME_MARKET_RATE` (requests per second to warframe.market, 1)
-- `MERFRAME_PRIME_INTERVAL` (30m)
+- `MERFRAME_PRIME_INTERVAL` (1h)
 - `MERFRAME_HOT_INTERVAL` (4h)
 - `MERFRAME_COLD_INTERVAL` (24h)
 - `MERFRAME_STATISTICS_INTERVAL` (24h)
 - `MERFRAME_CATALOG_INTERVAL` (24h)
 - `MERFRAME_PUBLISH_INTERVAL` (15m)
 - `MERFRAME_RIVEN_INTERVAL` (24h)
-- `MERFRAME_AUCTION_PASS_INTERVAL` (24h)
+- `MERFRAME_AUCTION_INTERVAL` (1h, how old a weapon's auctions may be before a request has them crawled again)
 - `MERFRAME_AUCTION_SPACING` (6s)
 - `MERFRAME_CONTACT` (the address in the User-Agent)
 
@@ -68,7 +68,7 @@ On the Cloudflare side, set a cache rule for `api.merframe.net/v1/*` (eligible f
 | `GET /v1/prices/{slug}/history` | One item's daily closed prices of the last 90 days | 1 min |
 | `GET /v1/items` | The warframe.market item list as fetched | 1 h |
 | `GET /v1/riven` | Riven weapons, attributes and the community good rolls | 1 h |
-| `GET /v1/riven/auctions/{slug}` | Open riven auctions of one weapon | 5 min |
+| `GET /v1/riven/auctions/{slug}` | Open riven auctions of one weapon, crawled on request | 5 min |
 | `GET /healthz`, `GET /readyz` | live & readiness checks | not cached |
 
 Bulk documents carry a strong `ETag` for the uncompressed body. Send it back as `If-None-Match` to get `304 Not Modified`.
@@ -76,6 +76,8 @@ Bulk documents carry a strong `ETag` for the uncompressed body. Send it back as 
 Bodies are precompressed, so ask for `br` or `gzip` in `Accept-Encoding`.
 
 Before the first publish the bulk routes respond with a `503` and a `Retry-After: 60` header. Missing items, history or weapon respond with a `404` and a `detail` string.
+
+Auctions respond with a `503` and `Retry-After: 30` until its first crawl is published. A request has them crawled again once they are older than `MERFRAME_AUCTION_INTERVAL`.
 
 ### Price fields
 
@@ -100,6 +102,8 @@ Before the first publish the bulk routes respond with a `503` and a `Retry-After
 
 ### Schedule
 
-Primes (items tagged `prime`) are repriced every 30 minutes. Items with a visible order from an in-game or online user, or a closed trade in 48 hours (hot items) are updated every 4 hours. Everything else updates daily, including statistics and history.
+Primes (items tagged `prime`) are repriced every hour. Items with a visible order from an in-game or online user, or a closed trade in 48 hours (hot items) are updated every 4 hours. Everything else updates daily, including statistics and history.
 
-With the riven auction crawl, which is also daily and spaces out requests to one per 6 seconds, this API does about 55,000 requests a day against warframe.market and never more than one per second. Since the point of this is to reduce load on the market, this does not change with the number of users Merframe has.
+Riven auctions are only crawled for weapons somebody requested, at most once an hour per weapon and spaced out to one request per 6 seconds.
+
+At the current item counts the pricing alone is about 40,000 requests a day against warframe.market, plus the auctions of the weapons people look at. Requests may not exceed more than one per second. Since the point of this is to reduce load on the market, this does not change with the number of users Merframe has.

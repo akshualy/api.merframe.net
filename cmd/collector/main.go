@@ -83,7 +83,7 @@ func run(ctx context.Context, getenv func(string) string, stdout io.Writer) erro
 		db,
 		publisher,
 		cfg.AuctionSpacing,
-		cfg.AuctionPassInterval,
+		cfg.AuctionInterval,
 		log.With("loop", "auctions"),
 	)
 	log.Info("collector started", "market_rate", cfg.MarketRate, "publish_interval", cfg.PublishInterval.String())

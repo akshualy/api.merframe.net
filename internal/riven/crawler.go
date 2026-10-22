@@ -14,9 +14,15 @@ type AuctionSource interface {
 	SearchAuctions(ctx context.Context, search wfm.AuctionSearch) ([]wfm.Auction, error)
 }
 
+// Demand is what the api was asked for. A weapon is due when it was asked for after its last crawl and that crawl is older than before; weapons never crawled come first.
+type Demand interface {
+	DueAuctions(ctx context.Context, before time.Time) ([]string, error)
+	MarkAuctionsCrawled(ctx context.Context, slug string, at time.Time) error
+}
+
 const (
-	searchCap      = 500
-	noWeaponsPause = time.Minute
+	searchCap        = 500
+	demandCheckPause = 10 * time.Second
 )
 
 var polarities = []string{"madurai", "vazarin", "naramon", "zenurik"}
@@ -30,78 +36,67 @@ var rerollBuckets = []struct{ low, high *int }{
 }
 
 type Crawler struct {
-	source       AuctionSource
-	store        Store
-	publisher    Publisher
-	pace         *throttle.Throttle
-	passInterval time.Duration
-	log          *slog.Logger
+	source    AuctionSource
+	demand    Demand
+	publisher Publisher
+	pace      *throttle.Throttle
+	interval  time.Duration
+	log       *slog.Logger
 
 	requests int
 }
 
-func NewCrawler(source AuctionSource, store Store, publisher Publisher, spacing, passInterval time.Duration, log *slog.Logger) *Crawler {
+func NewCrawler(source AuctionSource, demand Demand, publisher Publisher, spacing, interval time.Duration, log *slog.Logger) *Crawler {
 	return &Crawler{
-		source:       source,
-		store:        store,
-		publisher:    publisher,
-		pace:         throttle.Every(spacing),
-		passInterval: passInterval,
-		log:          log,
+		source:    source,
+		demand:    demand,
+		publisher: publisher,
+		pace:      throttle.Every(spacing),
+		interval:  interval,
+		log:       log,
 	}
 }
 
+// Run takes one weapon at a time, so a weapon asked for during a crawl is not queued behind the rest of the list.
 func (c *Crawler) Run(ctx context.Context) error {
 	for {
-		data, err := c.store.Riven(ctx)
+		due, err := c.demand.DueAuctions(ctx, time.Now().Add(-c.interval))
 		if err != nil {
-			return fmt.Errorf("loading the riven document: %w", err)
+			return fmt.Errorf("loading the wanted weapons: %w", err)
 		}
 
-		if len(data.Weapons) == 0 {
-			if err := throttle.Sleep(ctx, noWeaponsPause); err != nil {
+		if len(due) > 0 {
+			if err := c.crawlWeapon(ctx, due[0]); err != nil {
 				return err
 			}
 			continue
 		}
 
-		elapsed, err := c.runPass(ctx, data.Weapons)
-		if err != nil {
-			return err
-		}
-
-		if err := throttle.Sleep(ctx, c.passInterval-elapsed); err != nil {
+		if err := throttle.Sleep(ctx, demandCheckPause); err != nil {
 			return err
 		}
 	}
 }
 
-func (c *Crawler) runPass(ctx context.Context, weapons []Weapon) (time.Duration, error) {
-	started := time.Now()
+// crawlWeapon marks a failed crawl as done too, so the weapon waits for the interval and a new request like any other.
+func (c *Crawler) crawlWeapon(ctx context.Context, slug string) error {
 	c.requests = 0
-
-	crawled := 0
-	for _, weapon := range weapons {
-		auctions, err := c.crawl(ctx, weapon.Slug)
-		if err != nil {
-			if ctx.Err() != nil {
-				return 0, ctx.Err()
-			}
-
-			c.log.Warn("crawling auctions failed", "slug", weapon.Slug, "error", err)
-			continue
-		}
-
-		if err := c.publisher.Auctions(ctx, auctions); err != nil {
-			return 0, fmt.Errorf("publishing the auctions of %s: %w", weapon.Slug, err)
-		}
-
-		crawled++
+	auctions, err := c.crawl(ctx, slug)
+	if ctx.Err() != nil {
+		return ctx.Err()
 	}
 
-	elapsed := time.Since(started)
-	c.log.Info("riven auction pass finished", "crawled", crawled, "weapons", len(weapons), "requests", c.requests, "seconds", int(elapsed.Seconds()))
-	return elapsed, nil
+	if err != nil {
+		c.log.Warn("crawling auctions failed", "slug", slug, "error", err)
+		return c.demand.MarkAuctionsCrawled(ctx, slug, time.Now())
+	}
+
+	if err := c.publisher.Auctions(ctx, auctions); err != nil {
+		return fmt.Errorf("publishing the auctions of %s: %w", slug, err)
+	}
+
+	c.log.Info("weapon auctions crawled", "slug", slug, "listings", len(auctions.Auctions), "requests", c.requests)
+	return c.demand.MarkAuctionsCrawled(ctx, slug, auctions.UpdatedAt)
 }
 
 // crawl filters by polarity and reroll ranges. Every search is cheapest first, so a capped range only has listings a price comparison needs.

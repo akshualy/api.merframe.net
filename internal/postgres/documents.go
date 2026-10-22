@@ -159,3 +159,15 @@ func nullableTime(t time.Time) *time.Time {
 	}
 	return &t
 }
+
+func (s *Store) RequestAuctions(ctx context.Context, slug string, at time.Time) error {
+	return s.q.RequestAuctions(ctx, sqlc.RequestAuctionsParams{Slug: slug, RequestedAt: at})
+}
+
+func (s *Store) DueAuctions(ctx context.Context, before time.Time) ([]string, error) {
+	return s.q.DueAuctions(ctx, before)
+}
+
+func (s *Store) MarkAuctionsCrawled(ctx context.Context, slug string, at time.Time) error {
+	return s.q.MarkAuctionsCrawled(ctx, sqlc.MarkAuctionsCrawledParams{Slug: slug, CrawledAt: &at})
+}

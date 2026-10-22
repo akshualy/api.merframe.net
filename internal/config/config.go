@@ -9,18 +9,18 @@ import (
 const prefix = "MERFRAME_"
 
 type Collector struct {
-	DatabaseURL         string
-	Contact             string
-	MarketRate          float64
-	PrimeInterval       time.Duration
-	HotInterval         time.Duration
-	ColdInterval        time.Duration
-	StatisticsInterval  time.Duration
-	CatalogInterval     time.Duration
-	PublishInterval     time.Duration
-	RivenInterval       time.Duration
-	AuctionPassInterval time.Duration
-	AuctionSpacing      time.Duration
+	DatabaseURL        string
+	Contact            string
+	MarketRate         float64
+	PrimeInterval      time.Duration
+	HotInterval        time.Duration
+	ColdInterval       time.Duration
+	StatisticsInterval time.Duration
+	CatalogInterval    time.Duration
+	PublishInterval    time.Duration
+	RivenInterval      time.Duration
+	AuctionInterval    time.Duration
+	AuctionSpacing     time.Duration
 }
 
 type API struct {
@@ -31,18 +31,18 @@ type API struct {
 func LoadCollector(getenv func(string) string) (Collector, error) {
 	env := reader{getenv: getenv}
 	c := Collector{
-		DatabaseURL:         env.required("DATABASE_URL"),
-		Contact:             env.text("CONTACT", "https://merframe.net"),
-		MarketRate:          env.rate("MARKET_RATE", 1.0),
-		PrimeInterval:       env.duration("PRIME_INTERVAL", 30*time.Minute),
-		HotInterval:         env.duration("HOT_INTERVAL", 4*time.Hour),
-		ColdInterval:        env.duration("COLD_INTERVAL", 24*time.Hour),
-		StatisticsInterval:  env.duration("STATISTICS_INTERVAL", 24*time.Hour),
-		CatalogInterval:     env.duration("CATALOG_INTERVAL", 24*time.Hour),
-		PublishInterval:     env.duration("PUBLISH_INTERVAL", 15*time.Minute),
-		RivenInterval:       env.duration("RIVEN_INTERVAL", 24*time.Hour),
-		AuctionPassInterval: env.duration("AUCTION_PASS_INTERVAL", 24*time.Hour),
-		AuctionSpacing:      env.duration("AUCTION_SPACING", 6*time.Second),
+		DatabaseURL:        env.required("DATABASE_URL"),
+		Contact:            env.text("CONTACT", "https://merframe.net"),
+		MarketRate:         env.rate("MARKET_RATE", 1.0),
+		PrimeInterval:      env.duration("PRIME_INTERVAL", time.Hour),
+		HotInterval:        env.duration("HOT_INTERVAL", 4*time.Hour),
+		ColdInterval:       env.duration("COLD_INTERVAL", 24*time.Hour),
+		StatisticsInterval: env.duration("STATISTICS_INTERVAL", 24*time.Hour),
+		CatalogInterval:    env.duration("CATALOG_INTERVAL", 24*time.Hour),
+		PublishInterval:    env.duration("PUBLISH_INTERVAL", 15*time.Minute),
+		RivenInterval:      env.duration("RIVEN_INTERVAL", 24*time.Hour),
+		AuctionInterval:    env.duration("AUCTION_INTERVAL", time.Hour),
+		AuctionSpacing:     env.duration("AUCTION_SPACING", 6*time.Second),
 	}
 	if env.err != nil {
 		return Collector{}, env.err

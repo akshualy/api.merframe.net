@@ -34,7 +34,7 @@ func testStore(t *testing.T) *Store {
 		t.Fatal(err)
 	}
 
-	_, err = s.pool.Exec(t.Context(), "TRUNCATE prices, history, catalog, riven, blobs")
+	_, err = s.pool.Exec(t.Context(), "TRUNCATE prices, history, catalog, riven, blobs, auction_demand")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -171,6 +171,45 @@ func TestDocumentsRoundTrip(t *testing.T) {
 
 	if !got.GoodRollsUpdatedAt.IsZero() {
 		t.Error("a zero timestamp must come back zero")
+	}
+}
+
+func TestAuctionDemand(t *testing.T) {
+	s := testStore(t)
+	ctx := t.Context()
+	now := time.Now().UTC().Truncate(time.Microsecond)
+
+	if err := s.RequestAuctions(ctx, "torid", now); err != nil {
+		t.Fatal(err)
+	}
+
+	due, err := s.DueAuctions(ctx, now.Add(-time.Hour))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !cmp.Equal(due, []string{"torid"}) {
+		t.Errorf("due = %v, want torid before any crawl", due)
+	}
+
+	if err := s.MarkAuctionsCrawled(ctx, "torid", now.Add(time.Minute)); err != nil {
+		t.Fatal(err)
+	}
+
+	if due, _ := s.DueAuctions(ctx, now.Add(time.Hour)); len(due) != 0 {
+		t.Errorf("due = %v, want nothing after the crawl", due)
+	}
+
+	if err := s.RequestAuctions(ctx, "torid", now.Add(2*time.Minute)); err != nil {
+		t.Fatal(err)
+	}
+
+	if due, _ := s.DueAuctions(ctx, now); len(due) != 0 {
+		t.Errorf("due = %v, want a request inside the interval to wait", due)
+	}
+
+	if due, _ := s.DueAuctions(ctx, now.Add(time.Hour)); !cmp.Equal(due, []string{"torid"}) {
+		t.Errorf("due = %v, want torid once the interval passed", due)
 	}
 }
 

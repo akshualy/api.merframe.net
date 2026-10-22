@@ -18,7 +18,7 @@ func addRoutes(mux *http.ServeMux, blobs *Blobs, store Store, log *slog.Logger) 
 	mux.Handle("GET /v1/items", handleBlob(blobs, publish.CatalogBlob, catalogCaching))
 
 	mux.Handle("GET /v1/riven", handleBlob(blobs, publish.RivenBlob, rivenCaching))
-	mux.Handle("GET /v1/riven/auctions/{slug}", handleAuctions(blobs))
+	mux.Handle("GET /v1/riven/auctions/{slug}", handleAuctions(blobs, store, log))
 
 	mux.Handle("/", handleNotFound())
 }

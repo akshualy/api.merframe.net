@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/akshualy/api.merframe.net/internal/market"
 )
@@ -13,6 +14,7 @@ import (
 type Store interface {
 	Price(ctx context.Context, slug string) (market.Price, error)
 	History(ctx context.Context, slug string) ([]market.Day, error)
+	RequestAuctions(ctx context.Context, slug string, at time.Time) error
 }
 
 func NewServer(blobs *Blobs, store Store, log *slog.Logger) http.Handler {

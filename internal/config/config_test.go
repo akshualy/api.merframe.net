@@ -13,18 +13,18 @@ func env(pairs map[string]string) func(string) string {
 }
 
 var defaults = Collector{
-	DatabaseURL:         "postgres://x",
-	Contact:             "https://merframe.net",
-	MarketRate:          1,
-	PrimeInterval:       30 * time.Minute,
-	HotInterval:         4 * time.Hour,
-	ColdInterval:        24 * time.Hour,
-	StatisticsInterval:  24 * time.Hour,
-	CatalogInterval:     24 * time.Hour,
-	PublishInterval:     15 * time.Minute,
-	RivenInterval:       24 * time.Hour,
-	AuctionPassInterval: 24 * time.Hour,
-	AuctionSpacing:      6 * time.Second,
+	DatabaseURL:        "postgres://x",
+	Contact:            "https://merframe.net",
+	MarketRate:         1,
+	PrimeInterval:      time.Hour,
+	HotInterval:        4 * time.Hour,
+	ColdInterval:       24 * time.Hour,
+	StatisticsInterval: 24 * time.Hour,
+	CatalogInterval:    24 * time.Hour,
+	PublishInterval:    15 * time.Minute,
+	RivenInterval:      24 * time.Hour,
+	AuctionInterval:    time.Hour,
+	AuctionSpacing:     6 * time.Second,
 }
 
 func TestLoadCollector(t *testing.T) {

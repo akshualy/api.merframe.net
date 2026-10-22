@@ -4,13 +4,17 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"time"
 
 	"github.com/akshualy/api.merframe.net/internal/blob"
 	"github.com/akshualy/api.merframe.net/internal/postgres"
 	"github.com/akshualy/api.merframe.net/internal/publish"
 )
 
-const unpublishedRetryAfter = "60"
+const (
+	unpublishedRetryAfter = "60"
+	crawlRetryAfter       = "30"
+)
 
 func handleHealth() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
@@ -98,11 +102,23 @@ func handleHistory(store Store, log *slog.Logger) http.Handler {
 	})
 }
 
-func handleAuctions(blobs *Blobs) http.Handler {
+// handleAuctions records every request as demand, so the collector only crawls weapons somebody asked for.
+func handleAuctions(blobs *Blobs, store Store, log *slog.Logger) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		b, ok := blobs.Get(publish.AuctionsBlob(r.PathValue("slug")))
+		slug := r.PathValue("slug")
+		if !blobs.HasWeapon(slug) {
+			writeDetail(w, http.StatusNotFound, "Unknown weapon")
+			return
+		}
+
+		if err := store.RequestAuctions(r.Context(), slug, time.Now()); err != nil {
+			log.Error("recording auction demand failed", "slug", slug, "error", err)
+		}
+
+		b, ok := blobs.Get(publish.AuctionsBlob(slug))
 		if !ok {
-			writeDetail(w, http.StatusNotFound, "Weapon not crawled")
+			w.Header().Set("Retry-After", crawlRetryAfter)
+			writeDetail(w, http.StatusServiceUnavailable, "Auctions not crawled yet")
 			return
 		}
 

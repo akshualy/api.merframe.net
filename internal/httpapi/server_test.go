@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"testing"
 	"time"
 
@@ -18,9 +19,10 @@ import (
 )
 
 type fakeStore struct {
-	prices  map[string]market.Price
-	history map[string][]market.Day
-	err     error
+	prices    map[string]market.Price
+	history   map[string][]market.Day
+	requested []string
+	err       error
 }
 
 func (f *fakeStore) Price(_ context.Context, slug string) (market.Price, error) {
@@ -39,6 +41,11 @@ func (f *fakeStore) History(_ context.Context, slug string) ([]market.Day, error
 	return f.history[slug], f.err
 }
 
+func (f *fakeStore) RequestAuctions(_ context.Context, slug string, _ time.Time) error {
+	f.requested = append(f.requested, slug)
+	return f.err
+}
+
 var at = time.Date(2026, 10, 8, 12, 0, 0, 0, time.UTC)
 
 func publishedServer(t *testing.T, store Store) (http.Handler, *Blobs) {
@@ -50,7 +57,7 @@ func publishedServer(t *testing.T, store Store) (http.Handler, *Blobs) {
 		t.Fatal(err)
 	}
 
-	if err := blobs.Set(publish.RivenBlob, blob.Build([]byte(`{"weapons":[]}`))); err != nil {
+	if err := blobs.Set(publish.RivenBlob, blob.Build([]byte(`{"weapons":[{"slug":"torid"},{"slug":"kuva_nukor"}]}`))); err != nil {
 		t.Fatal(err)
 	}
 
@@ -100,7 +107,8 @@ func TestRoutes(t *testing.T) {
 		{"/v1/items", http.StatusOK, catalogCaching.Client, catalogCaching.Edge, `"data"`},
 		{"/v1/riven", http.StatusOK, rivenCaching.Client, rivenCaching.Edge, `"weapons"`},
 		{"/v1/riven/auctions/torid", http.StatusOK, auctionsCaching.Client, auctionsCaching.Edge, `"torid"`},
-		{"/v1/riven/auctions/nothing", http.StatusNotFound, noStore, "", "Weapon not crawled"},
+		{"/v1/riven/auctions/kuva_nukor", http.StatusServiceUnavailable, noStore, "", "Auctions not crawled yet"},
+		{"/v1/riven/auctions/nothing", http.StatusNotFound, noStore, "", "Unknown weapon"},
 		{"/v1/nothing", http.StatusNotFound, noStore, "", "Not Found"},
 	}
 	for _, tt := range tests {
@@ -123,6 +131,18 @@ func TestRoutes(t *testing.T) {
 				t.Errorf("body = %s, want it to contain %s", body, tt.wantBodyPart)
 			}
 		})
+	}
+
+	if want := []string{"torid", "kuva_nukor"}; !slices.Equal(store.requested, want) {
+		t.Errorf("requested %v, want %v: every known weapon asked for, crawled or not", store.requested, want)
+	}
+}
+
+func TestAuctionsRetryAfter(t *testing.T) {
+	h, _ := publishedServer(t, &fakeStore{})
+	rec := get(t, h, "/v1/riven/auctions/kuva_nukor", nil)
+	if got := rec.Header().Get("Retry-After"); got != crawlRetryAfter {
+		t.Errorf("Retry-After = %q, want %q", got, crawlRetryAfter)
 	}
 }
 

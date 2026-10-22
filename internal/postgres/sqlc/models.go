@@ -8,6 +8,12 @@ import (
 	"time"
 )
 
+type AuctionDemand struct {
+	Slug        string
+	RequestedAt time.Time
+	CrawledAt   *time.Time
+}
+
 type Blob struct {
 	Name        string
 	Etag        string

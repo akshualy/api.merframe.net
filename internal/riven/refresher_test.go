@@ -71,17 +71,25 @@ func (f *fakeSheet) Tab(_ context.Context, name string) (string, error) {
 	return "\"WEAPON\",\"POSITIVE STATS:\",\"NEGATIVE STATS:\"\n\"torid\",\"CD CC\",\"IMP\"\n", nil
 }
 
-func runUntilCancelled(t *testing.T, run func(context.Context) error, d time.Duration) {
+// start runs a loop in the background and returns the call that cancels it and checks how it ended.
+func start(t *testing.T, run func(context.Context) error) (stop func()) {
 	t.Helper()
 	ctx, cancel := context.WithCancel(t.Context())
 	done := make(chan error, 1)
 	go func() { done <- run(ctx) }()
-	time.Sleep(d)
-	cancel()
-
-	if err := <-done; !errors.Is(err, context.Canceled) {
-		t.Fatalf("Run returned %v", err)
+	return func() {
+		cancel()
+		if err := <-done; !errors.Is(err, context.Canceled) {
+			t.Fatalf("Run returned %v", err)
+		}
 	}
+}
+
+func runUntilCancelled(t *testing.T, run func(context.Context) error, d time.Duration) {
+	t.Helper()
+	stop := start(t, run)
+	time.Sleep(d)
+	stop()
 }
 
 func rifle(slug string) wfm.RivenWeapon {

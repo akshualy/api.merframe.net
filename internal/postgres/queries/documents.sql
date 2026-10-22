@@ -39,3 +39,16 @@ SELECT * FROM blobs WHERE name = $1;
 
 -- name: ListBlobTags :many
 SELECT name, etag FROM blobs ORDER BY name;
+
+-- name: RequestAuctions :exec
+INSERT INTO auction_demand (slug, requested_at)
+VALUES ($1, $2)
+ON CONFLICT (slug) DO UPDATE SET requested_at = EXCLUDED.requested_at;
+
+-- name: DueAuctions :many
+SELECT slug FROM auction_demand
+WHERE crawled_at IS NULL OR (crawled_at < requested_at AND crawled_at < sqlc.arg(before)::timestamptz)
+ORDER BY crawled_at NULLS FIRST, requested_at;
+
+-- name: MarkAuctionsCrawled :exec
+UPDATE auction_demand SET crawled_at = $2 WHERE slug = $1;
