@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/golang:1.27 AS build
+FROM golang:1.27 AS build
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
