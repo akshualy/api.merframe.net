@@ -90,6 +90,46 @@ func TestUnmapped(t *testing.T) {
 	if diff := cmp.Diff([]string{"primary:WAT"}, parser.unmapped()); diff != "" {
 		t.Errorf("unmapped (-want +got):\n%s", diff)
 	}
+
+	if diff := cmp.Diff([]string{"torid"}, parser.dropped); diff != "" {
+		t.Errorf("dropped (-want +got):\n%s", diff)
+	}
+}
+
+func TestSplicedStats(t *testing.T) {
+	tests := []struct {
+		class, sheet, weapon string
+		optional             []string
+	}{
+		{"primary", "\"burston\",\"CD MS/TOX/DMG/CC/FR/CORRO/VIRAL\",\"PUNC\"\n", "burston", []string{"MS", "TOX", "DMG", "CC", "FR", "CORRO", "VIRAL"}},
+		{"melee", "\"fragor\",\"CC/CD/IC/DMG/SLAMDAM\",\"\"\n", "fragor", []string{"CC", "CD", "IC", "DMG", "SLAMDAM"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.weapon, func(t *testing.T) {
+			parser := newSheetParser(tt.class)
+			rolls, err := parser.parse("\"WEAPON\",\"POSITIVE STATS:\",\"NEGATIVE STATS:\"\n" + tt.sheet)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			roll, kept := rolls[tt.weapon]
+			if !kept {
+				t.Fatalf("got %s dropped, unmapped %v", tt.weapon, parser.unmapped())
+			}
+
+			if diff := cmp.Diff(tt.optional, abbrList(roll.Alternatives[0].Optional)); diff != "" {
+				t.Errorf("optional (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func abbrList(stats []StatRef) []string {
+	out := make([]string, 0, len(stats))
+	for _, stat := range stats {
+		out = append(out, stat.Abbr)
+	}
+	return out
 }
 
 func TestSheetWithoutColumns(t *testing.T) {

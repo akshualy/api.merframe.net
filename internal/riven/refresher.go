@@ -139,6 +139,7 @@ func (r *Refresher) refreshLists(ctx context.Context) error {
 func (r *Refresher) refreshGoodRolls(ctx context.Context) error {
 	rolls := map[string]GoodRoll{}
 	unmapped := []string{}
+	dropped := []string{}
 	for _, tab := range goodRollTabs {
 		text, err := r.sheet.Tab(ctx, tab.tab)
 		if err != nil {
@@ -156,6 +157,7 @@ func (r *Refresher) refreshGoodRolls(ctx context.Context) error {
 		}
 
 		unmapped = append(unmapped, parser.unmapped()...)
+		dropped = append(dropped, parser.dropped...)
 	}
 
 	if len(rolls) == 0 {
@@ -166,6 +168,6 @@ func (r *Refresher) refreshGoodRolls(ctx context.Context) error {
 	r.data.GoodRolls = rolls
 	r.data.Unmapped = unmapped
 	r.data.GoodRollsUpdatedAt = time.Now()
-	r.log.Info("good rolls refreshed", "weapons", len(rolls), "unmapped", unmapped)
+	r.log.Info("good rolls refreshed", "weapons", len(rolls), "unmapped", unmapped, "dropped", dropped)
 	return nil
 }

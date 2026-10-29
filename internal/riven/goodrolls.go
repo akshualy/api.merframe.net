@@ -50,6 +50,13 @@ var gunStats = map[string][]string{
 	"SD":      {"WeaponProcTimeMod"},
 	"PT":      {"WeaponPunctureDepthMod"},
 	"PFS":     {"WeaponProjectileSpeedMod"},
+	"CORRO":   {"WeaponCorrosiveDamageMod"},
+	"VIRAL":   {"WeaponViralDamageMod"},
+	"DTO":     {"WeaponFactionDamageOrokin"},
+	"DTT":     {"WeaponFactionDamageTechrot"},
+	"DTS":     {"WeaponFactionDamageScaldra"},
+	"WEAKDMG": {"WeaponWeakpointDamage"},
+	"SDMG":    {"WeaponStatusDamage"},
 }
 
 var meleeStats = map[string][]string{
@@ -76,6 +83,11 @@ var meleeStats = map[string][]string{
 	"SLIDE":   {"SlideAttackCritChanceMod"},
 	"FIN":     {"WeaponMeleeFinisherDamageMod"},
 	"CDUR":    {"ComboDurationMod"},
+	"CORRO":   {"WeaponCorrosiveDamageMod"},
+	"DTO":     {"WeaponFactionDamageOrokin"},
+	"DTT":     {"WeaponFactionDamageTechrot"},
+	"DTS":     {"WeaponFactionDamageScaldra"},
+	"SLAMDAM": {"WeaponMeleeSlamDamageMod"},
 }
 
 var alternativeSplit = regexp.MustCompile(`(?i)\s+or\s+`)
@@ -86,6 +98,7 @@ type sheetParser struct {
 	class   string
 	stats   map[string][]string
 	missing map[string]bool
+	dropped []string
 }
 
 func newSheetParser(weaponClass string) *sheetParser {
@@ -148,6 +161,7 @@ func (p *sheetParser) parse(text string) (map[string]GoodRoll, error) {
 
 		alternatives = collapsed(alternatives)
 		if len(alternatives) == 0 {
+			p.dropped = append(p.dropped, weapon)
 			continue
 		}
 
