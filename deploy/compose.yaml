@@ -41,7 +41,7 @@ services:
     restart: unless-stopped
 
   cloudflared:
-    image: cloudflare/cloudflared:2026.9.3
+    image: cloudflare/cloudflared:2026.10.7
     profiles: ["edge"]
     command: tunnel --no-autoupdate run
     environment:
