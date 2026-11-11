@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -57,7 +58,7 @@ func publishedServer(t *testing.T, store Store) (http.Handler, *Blobs) {
 		t.Fatal(err)
 	}
 
-	if err := blobs.Set(publish.RivenBlob, blob.Build([]byte(`{"weapons":[{"slug":"torid"},{"slug":"kuva_nukor"}]}`))); err != nil {
+	if err := blobs.Set(publish.RivenBlob, blob.Build([]byte(`{"weapons":[{"slug":"torid"},{"slug":"kuva_nukor"},{"slug":"ogris"}]}`))); err != nil {
 		t.Fatal(err)
 	}
 
@@ -65,7 +66,13 @@ func publishedServer(t *testing.T, store Store) (http.Handler, *Blobs) {
 		t.Fatal(err)
 	}
 
-	if err := blobs.Set(publish.AuctionsBlob("torid"), blob.Build([]byte(`{"slug":"torid","auctions":[]}`))); err != nil {
+	torid := fmt.Appendf(nil, `{"slug":"torid","updated_at":%d,"auctions":[]}`, time.Now().Unix())
+	if err := blobs.Set(publish.AuctionsBlob("torid"), blob.Build(torid)); err != nil {
+		t.Fatal(err)
+	}
+
+	ogris := fmt.Appendf(nil, `{"slug":"ogris","updated_at":%d,"auctions":[]}`, time.Now().Add(-auctionsMaxAge-time.Minute).Unix())
+	if err := blobs.Set(publish.AuctionsBlob("ogris"), blob.Build(ogris)); err != nil {
 		t.Fatal(err)
 	}
 	return NewServer(blobs, store, slog.New(slog.DiscardHandler)), blobs
@@ -107,7 +114,8 @@ func TestRoutes(t *testing.T) {
 		{"/v1/items", http.StatusOK, catalogCaching.Client, catalogCaching.Edge, `"data"`},
 		{"/v1/riven", http.StatusOK, rivenCaching.Client, rivenCaching.Edge, `"weapons"`},
 		{"/v1/riven/auctions/torid", http.StatusOK, auctionsCaching.Client, auctionsCaching.Edge, `"torid"`},
-		{"/v1/riven/auctions/kuva_nukor", http.StatusServiceUnavailable, noStore, "", "Auctions not crawled yet"},
+		{"/v1/riven/auctions/kuva_nukor", http.StatusServiceUnavailable, noStore, "", "Auctions are being crawled"},
+		{"/v1/riven/auctions/ogris", http.StatusServiceUnavailable, noStore, "", "Auctions are being crawled"},
 		{"/v1/riven/auctions/nothing", http.StatusNotFound, noStore, "", "Unknown weapon"},
 		{"/v1/nothing", http.StatusNotFound, noStore, "", "Not Found"},
 	}
@@ -133,7 +141,7 @@ func TestRoutes(t *testing.T) {
 		})
 	}
 
-	if want := []string{"torid", "kuva_nukor"}; !slices.Equal(store.requested, want) {
+	if want := []string{"torid", "kuva_nukor", "ogris"}; !slices.Equal(store.requested, want) {
 		t.Errorf("requested %v, want %v: every known weapon asked for, crawled or not", store.requested, want)
 	}
 }

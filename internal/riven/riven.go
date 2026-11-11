@@ -3,14 +3,13 @@ package riven
 import "time"
 
 type Weapon struct {
-	GameRef     string  `json:"game_ref"`
-	Slug        string  `json:"slug"`
-	Name        string  `json:"name"`
-	Group       string  `json:"group"`
-	RivenType   string  `json:"riven_type"`
-	ModType     string  `json:"mod_type"`
-	Disposition float64 `json:"disposition"`
-	MasteryRank int     `json:"mastery_rank"`
+	GameRef     string `json:"game_ref"`
+	Slug        string `json:"slug"`
+	Name        string `json:"name"`
+	Group       string `json:"group"`
+	RivenType   string `json:"riven_type"`
+	ModType     string `json:"mod_type"`
+	MasteryRank int    `json:"mastery_rank"`
 }
 
 type Attribute struct {

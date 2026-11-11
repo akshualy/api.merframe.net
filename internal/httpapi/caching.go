@@ -18,7 +18,7 @@ var (
 	}
 	rivenCaching    = catalogCaching
 	auctionsCaching = blob.Caching{
-		Edge:   "max-age=300, stale-while-revalidate=3600, stale-if-error=86400",
+		Edge:   "max-age=300",
 		Client: "public, max-age=300",
 	}
 )

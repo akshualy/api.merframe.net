@@ -93,7 +93,7 @@ func runUntilCancelled(t *testing.T, run func(context.Context) error, d time.Dur
 }
 
 func rifle(slug string) wfm.RivenWeapon {
-	w := wfm.RivenWeapon{Slug: slug, Group: "primary", RivenType: "rifle", Disposition: 1}
+	w := wfm.RivenWeapon{Slug: slug, Group: "primary", RivenType: "rifle"}
 	w.I18n.En.Name = slug
 	return w
 }

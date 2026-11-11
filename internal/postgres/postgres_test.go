@@ -149,7 +149,7 @@ func TestDocumentsRoundTrip(t *testing.T) {
 
 	data := riven.Document{
 		WeaponsUpdatedAt: now,
-		Weapons:          []riven.Weapon{{Slug: "torid", Name: "Torid", Disposition: 0.75}},
+		Weapons:          []riven.Weapon{{Slug: "torid", Name: "Torid"}},
 		Attributes:       []riven.Attribute{{Slug: "critical_chance", GameRef: "WeaponCritChanceMod"}},
 		GoodRolls: map[string]riven.GoodRoll{"torid": {
 			Weapon: "torid", WeaponClass: "primary",

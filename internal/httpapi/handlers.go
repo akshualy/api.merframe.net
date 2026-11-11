@@ -14,6 +14,7 @@ import (
 const (
 	unpublishedRetryAfter = "60"
 	crawlRetryAfter       = "30"
+	auctionsMaxAge        = 24 * time.Hour
 )
 
 func handleHealth() http.Handler {
@@ -115,10 +116,10 @@ func handleAuctions(blobs *Blobs, store Store, log *slog.Logger) http.Handler {
 			log.Error("recording auction demand failed", "slug", slug, "error", err)
 		}
 
-		b, ok := blobs.Get(publish.AuctionsBlob(slug))
-		if !ok {
+		b, crawledAt, ok := blobs.Auctions(slug)
+		if !ok || time.Since(crawledAt) > auctionsMaxAge {
 			w.Header().Set("Retry-After", crawlRetryAfter)
-			writeDetail(w, http.StatusServiceUnavailable, "Auctions not crawled yet")
+			writeDetail(w, http.StatusServiceUnavailable, "Auctions are being crawled")
 			return
 		}
 

@@ -34,7 +34,6 @@ func weapons(entries []wfm.RivenWeapon) []Weapon {
 			Group:       entry.Group,
 			RivenType:   entry.RivenType,
 			ModType:     modType,
-			Disposition: entry.Disposition,
 			MasteryRank: entry.ReqMasteryRank,
 		})
 	}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"strings"
 	"time"
 
 	"github.com/akshualy/api.merframe.net/internal/blob"
@@ -25,8 +26,14 @@ const (
 
 const firstPublishRetry = time.Minute
 
+const auctionsPrefix = "auctions/"
+
 func AuctionsBlob(slug string) string {
-	return "auctions/" + slug
+	return auctionsPrefix + slug
+}
+
+func AuctionsSlug(name string) (string, bool) {
+	return strings.CutPrefix(name, auctionsPrefix)
 }
 
 type Publisher struct {

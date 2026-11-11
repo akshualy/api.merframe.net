@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/akshualy/api.merframe.net/internal/blob"
 	"github.com/akshualy/api.merframe.net/internal/publish"
@@ -14,16 +15,31 @@ type Blobs struct {
 	blobs   map[string]*blob.Blob
 	items   map[string]json.RawMessage
 	weapons map[string]struct{}
+	crawled map[string]time.Time
 }
 
 func NewBlobs() *Blobs {
-	return &Blobs{blobs: map[string]*blob.Blob{}, items: map[string]json.RawMessage{}, weapons: map[string]struct{}{}}
+	return &Blobs{
+		blobs:   map[string]*blob.Blob{},
+		items:   map[string]json.RawMessage{},
+		weapons: map[string]struct{}{},
+		crawled: map[string]time.Time{},
+	}
 }
 
-// Set indexes the price table and the riven weapons. Items served will be the same as the table's.
+// Set indexes the price table, the riven weapons, and the crawl timestamp of auction documents. Items served will be the same as the table's.
 func (b *Blobs) Set(name string, value *blob.Blob) error {
 	b.mu.Lock()
 	defer b.mu.Unlock()
+	if slug, ok := publish.AuctionsSlug(name); ok {
+		crawledAt, err := decodeCrawledAt(value.Body)
+		if err != nil {
+			return err
+		}
+
+		b.crawled[slug] = crawledAt
+	}
+
 	switch name {
 	case publish.PricesBlob:
 		items, err := decodeItems(value.Body)
@@ -72,6 +88,16 @@ func decodeWeapons(body []byte) (map[string]struct{}, error) {
 	return weapons, nil
 }
 
+func decodeCrawledAt(body []byte) (time.Time, error) {
+	var document struct {
+		UpdatedAt int64 `json:"updated_at"`
+	}
+	if err := json.Unmarshal(body, &document); err != nil {
+		return time.Time{}, fmt.Errorf("decoding the auction document: %w", err)
+	}
+	return time.Unix(document.UpdatedAt, 0), nil
+}
+
 func (b *Blobs) Get(name string) (*blob.Blob, bool) {
 	b.mu.RLock()
 	defer b.mu.RUnlock()
@@ -84,6 +110,13 @@ func (b *Blobs) Item(slug string) (json.RawMessage, bool) {
 	defer b.mu.RUnlock()
 	item, ok := b.items[slug]
 	return item, ok
+}
+
+func (b *Blobs) Auctions(slug string) (*blob.Blob, time.Time, bool) {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	value, ok := b.blobs[publish.AuctionsBlob(slug)]
+	return value, b.crawled[slug], ok
 }
 
 func (b *Blobs) HasWeapon(slug string) bool {

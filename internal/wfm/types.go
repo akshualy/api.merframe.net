@@ -48,13 +48,12 @@ type ClosedStatistics struct {
 }
 
 type RivenWeapon struct {
-	Slug           string  `json:"slug"`
-	GameRef        string  `json:"gameRef"`
-	Group          string  `json:"group"`
-	RivenType      string  `json:"rivenType"`
-	Disposition    float64 `json:"disposition"`
-	ReqMasteryRank int     `json:"reqMasteryRank"`
-	I18n           I18n    `json:"i18n"`
+	Slug           string `json:"slug"`
+	GameRef        string `json:"gameRef"`
+	Group          string `json:"group"`
+	RivenType      string `json:"rivenType"`
+	ReqMasteryRank int    `json:"reqMasteryRank"`
+	I18n           I18n   `json:"i18n"`
 }
 
 type RivenAttribute struct {
