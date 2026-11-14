@@ -36,7 +36,7 @@ func TestSheet(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			parser := newSheetParser(tt.class)
+			parser := newSheetParser(tt.class, nil)
 			rolls, err := parser.parse(string(sheet))
 			if err != nil {
 				t.Fatal(err)
@@ -55,7 +55,7 @@ func TestSheet(t *testing.T) {
 
 func TestCollapse(t *testing.T) {
 	sheet := "\"WEAPON\",\"POSITIVE STATS:\",\"NEGATIVE STATS:\"\n\"torid\",\"TOX DTC or TOX DTG or TOX DTI\",\"IMP\"\n"
-	rolls, err := newSheetParser("primary").parse(sheet)
+	rolls, err := newSheetParser("primary", nil).parse(sheet)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +73,7 @@ func TestCollapse(t *testing.T) {
 
 func TestUnmapped(t *testing.T) {
 	sheet := "\"WEAPON\",\"POSITIVE STATS:\",\"NEGATIVE STATS:\"\n\"torid\",\"CD WAT\",\"IMP\"\n\"boar\",\"CD CC\",\"WAT\"\n"
-	parser := newSheetParser("primary")
+	parser := newSheetParser("primary", nil)
 	rolls, err := parser.parse(sheet)
 	if err != nil {
 		t.Fatal(err)
@@ -106,7 +106,7 @@ func TestSplicedStats(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.weapon, func(t *testing.T) {
-			parser := newSheetParser(tt.class)
+			parser := newSheetParser(tt.class, nil)
 			rolls, err := parser.parse("\"WEAPON\",\"POSITIVE STATS:\",\"NEGATIVE STATS:\"\n" + tt.sheet)
 			if err != nil {
 				t.Fatal(err)
@@ -124,6 +124,31 @@ func TestSplicedStats(t *testing.T) {
 	}
 }
 
+func TestMixedTab(t *testing.T) {
+	sheet := "\"WEAPON\",\"POSITIVE STATS:\",\"NEGATIVE STATS:\"\n\"akaten\",\"CC CD DMG\",\"SLIDE/EFF\"\n\"tazicor\",\"MS SC FR/PT\",\"DTI\"\n"
+	parser := newSheetParser("robotic", map[string]bool{"akaten": true})
+	rolls, err := parser.parse(sheet)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff([]string{"WeaponMeleeDamageMod"}, rolls["akaten"].Alternatives[0].Mandatory[2].Tags); diff != "" {
+		t.Errorf("akaten DMG (-want +got):\n%s", diff)
+	}
+
+	if diff := cmp.Diff([]string{"SLIDE", "EFF"}, abbrList(rolls["akaten"].AcceptedBad)); diff != "" {
+		t.Errorf("akaten accepted bad (-want +got):\n%s", diff)
+	}
+
+	if diff := cmp.Diff([]string{"WeaponFactionDamageInfested"}, rolls["tazicor"].AcceptedBad[0].Tags); diff != "" {
+		t.Errorf("tazicor DTI (-want +got):\n%s", diff)
+	}
+
+	if unmapped := parser.unmapped(); len(unmapped) != 0 {
+		t.Errorf("unmapped = %v", unmapped)
+	}
+}
+
 func abbrList(stats []StatRef) []string {
 	out := make([]string, 0, len(stats))
 	for _, stat := range stats {
@@ -133,7 +158,7 @@ func abbrList(stats []StatRef) []string {
 }
 
 func TestSheetWithoutColumns(t *testing.T) {
-	if _, err := newSheetParser("melee").parse("\"WEAPON\",\"STUFF\"\n"); err == nil {
+	if _, err := newSheetParser("melee", nil).parse("\"WEAPON\",\"STUFF\"\n"); err == nil {
 		t.Error("got no error for a sheet without the stat columns")
 	}
 }

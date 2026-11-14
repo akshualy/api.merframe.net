@@ -96,17 +96,14 @@ var errMissingColumns = errors.New("the sheet doesn't have a positive or negativ
 
 type sheetParser struct {
 	class   string
+	melee   map[string]bool
 	stats   map[string][]string
 	missing map[string]bool
 	dropped []string
 }
 
-func newSheetParser(weaponClass string) *sheetParser {
-	stats := gunStats
-	if weaponClass == meleeClass {
-		stats = meleeStats
-	}
-	return &sheetParser{class: weaponClass, stats: stats, missing: map[string]bool{}}
+func newSheetParser(weaponClass string, melee map[string]bool) *sheetParser {
+	return &sheetParser{class: weaponClass, melee: melee, missing: map[string]bool{}}
 }
 
 // unmapped lists abbreviations the sheet used that weren't known as class:ABBR.
@@ -150,6 +147,11 @@ func (p *sheetParser) parse(text string) (map[string]GoodRoll, error) {
 		weapon := strings.ToLower(strings.TrimSpace(row[0]))
 		if weapon == "" {
 			continue
+		}
+
+		p.stats = gunStats
+		if p.class == meleeClass || p.melee[weapon] {
+			p.stats = meleeStats
 		}
 
 		var alternatives []Alternative

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 	"slices"
+	"strings"
 	"time"
 
 	"github.com/akshualy/api.merframe.net/internal/throttle"
@@ -38,6 +39,7 @@ var goodRollTabs = []struct{ class, tab string }{
 	{"secondary", "Secondary"},
 	{"melee", "Melee"},
 	{"archgun", "Archgun"},
+	{"robotic", "Robotic"},
 }
 
 var errEmptyList = errors.New("the list came back empty")
@@ -140,13 +142,20 @@ func (r *Refresher) refreshGoodRolls(ctx context.Context) error {
 	rolls := map[string]GoodRoll{}
 	unmapped := []string{}
 	dropped := []string{}
+	melee := map[string]bool{}
+	for _, weapon := range r.data.Weapons {
+		if weapon.RivenType == meleeClass {
+			melee[strings.ToLower(weapon.Name)] = true
+		}
+	}
+
 	for _, tab := range goodRollTabs {
 		text, err := r.sheet.Tab(ctx, tab.tab)
 		if err != nil {
 			return err
 		}
 
-		parser := newSheetParser(tab.class)
+		parser := newSheetParser(tab.class, melee)
 		parsed, err := parser.parse(text)
 		if err != nil {
 			return fmt.Errorf("tab %s: %w", tab.tab, err)

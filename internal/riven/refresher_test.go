@@ -107,8 +107,8 @@ func TestRefresherDaily(t *testing.T) {
 		r := NewRefresher(source, sheet, store, publisher, 24*time.Hour, slog.New(slog.DiscardHandler))
 		runUntilCancelled(t, r.Run, 25*time.Hour)
 
-		if sheet.calls != 8 {
-			t.Errorf("sheet fetched %d tabs, want 4 tabs twice", sheet.calls)
+		if sheet.calls != 10 {
+			t.Errorf("sheet fetched %d tabs, want 5 tabs twice", sheet.calls)
 		}
 
 		if publisher.riven != 2 {
